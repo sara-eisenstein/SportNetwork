@@ -22,7 +22,7 @@ namespace Repositorys.Rpository
             services.AddScoped<Irepository<ChatMessage>, ChatMessageRepository>();
             services.AddScoped<Irepository<ChallengeParticipant>, ChallengeParticipantRepository>();
             services.AddScoped<Irepository<Challenge>, ChallengeRepository>();
-            services.AddScoped<Irepository<Achivevement>, AchievementRepository>();
+            services.AddScoped<Irepository<Achievement>, AchievementRepository>();
 
 
             return services;

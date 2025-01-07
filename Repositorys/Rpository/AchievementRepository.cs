@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repositorys.Rpository
 {
-    public class AchievementRepository : Irepository<Achivevement>
+    public class AchievementRepository : Irepository<Achievement>
     {
         private readonly IContext context;
 
@@ -17,7 +17,7 @@ namespace Repositorys.Rpository
             this.context = context;
         }
 
-        public Achivevement Add(Achivevement item)
+        public Achievement Add(Achievement item)
         {
             context.achivevements.Add(item);
             context.Save();
@@ -34,17 +34,17 @@ namespace Repositorys.Rpository
             }
         }
 
-        public Achivevement Get(int id)
+        public Achievement Get(int id)
         {
             return context.achivevements.FirstOrDefault(x => x.AchievementId == id);
         }
 
-        public List<Achivevement> GetAll()
+        public List<Achievement> GetAll()
         {
             return context.achivevements.ToList();
         }
 
-        public Achivevement Update(Achivevement item)
+        public Achievement Update(Achievement item)
         {
             var existingAchievement = Get(item.AchievementId);
             if (existingAchievement != null)

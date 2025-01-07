@@ -15,7 +15,7 @@ namespace Repositorys.Interface
 {
     public interface IContext
     {
-        public DbSet<Achivevement> achivevements { get; set; }
+        public DbSet<Achievement> achivevements { get; set; }
         public DbSet<Challenge> challenges { get; set; }
         public DbSet<ChallengeParticipant> challengeParticipants { get; set; }
         public DbSet<ChatMessage> chatMessages{ get; set; }
