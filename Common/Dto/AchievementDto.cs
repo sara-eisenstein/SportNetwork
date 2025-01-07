@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Common.Dto
 {
-    internal class AchievementDto
+    public class AchievementDto
     {
+        public int AchievementId { get; set; }
+        public int UserId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime DateEarned { get; set; }
     }
 }

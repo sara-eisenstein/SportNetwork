@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Repositorys.Interface
 {
-    public interface Irepository<T>
+    public interface IRepository<T>
     {
         List<T> GetAll();
         T Get(int id);
         void Delete(int id);
-        T Update(T entity);
-       T Add(T entity);
+        T Update(T item);
+       T Add(T item);
     }
 }

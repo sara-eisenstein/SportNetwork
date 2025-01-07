@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Repositorys.Entities;
+using Repositorys.Interface;
+using Repositorys.Rpository;
+using Service.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +11,22 @@ using System.Threading.Tasks;
 
 namespace Service.Services
 {
-    internal class ExtensionService
+    public static class ExtensionService
     {
+        public static IServiceCollection AddServiceExtension(this IServiceCollection services)
+        {
+
+            services.AddRepository();
+            services.AddScoped<IService<UserDto>, UserService>();
+            services.AddScoped<IService<PostDto>, PostService>();
+            services.AddScoped<IService<FollowerDto>, FollowerService>();
+            services.AddScoped<IService<CommentDto>, CommentService>();
+            services.AddScoped<IService<ChatMessageDto>, ChatMessageService>();
+            services.AddScoped<IService<ChallengeParticipantDto>, ChallengeParticipantService>();
+            services.AddScoped<IService<ChallengeDto>, ChallengeService>();
+            services.AddScoped<IService<AchievementDto>, AchievementService>();
+            services.AddAutoMapper(typeof(MyMapper));
+            return services;
+        }
     }
 }

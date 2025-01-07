@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Common.Dto
 {
-    internal class ChallengeParticipantDto
+    public class ChallengeParticipantDto
     {
+        public int ChallengeParticipantId { get; set; }
+        public int ChallengeId { get; set; }
+        public int UserId { get; set; }
+        public string Progress { get; set; }
     }
 }

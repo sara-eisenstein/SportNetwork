@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repositorys.Rpository
 {
-    public class AchievementRepository : Irepository<Achievement>
+    public class AchievementRepository : IRepository<Achievement>
     {
         private readonly IContext context;
 

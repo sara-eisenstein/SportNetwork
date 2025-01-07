@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repositorys.Rpository
 {
-    public class FollowerRepository:Irepository<Follower>
+    public class FollowerRepository:IRepository<Follower>
     {
         private readonly IContext context;
 

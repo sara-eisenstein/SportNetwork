@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repositorys.Entities
 {
-    public class Achivevement
+    public class Achievement
     {
         public int AchievementId { get; set; }
 

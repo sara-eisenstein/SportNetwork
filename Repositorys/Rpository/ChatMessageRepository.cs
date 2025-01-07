@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repositorys.Rpository
 {
-    public class ChatMessageRepository:Irepository<ChatMessage>
+    public class ChatMessageRepository:IRepository<ChatMessage>
     {
         private readonly IContext context;
 

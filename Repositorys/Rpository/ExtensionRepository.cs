@@ -15,14 +15,14 @@ namespace Repositorys.Rpository
         {
 
 
-            services.AddScoped<Irepository<User>, UserRepository>();
-            services.AddScoped<Irepository<Post>, PostRepository>();
-            services.AddScoped<Irepository<Follower>, FollowerRepository>();
-            services.AddScoped<Irepository<Comment>, CommentRepository>();
-            services.AddScoped<Irepository<ChatMessage>, ChatMessageRepository>();
-            services.AddScoped<Irepository<ChallengeParticipant>, ChallengeParticipantRepository>();
-            services.AddScoped<Irepository<Challenge>, ChallengeRepository>();
-            services.AddScoped<Irepository<Achievement>, AchievementRepository>();
+            services.AddScoped<IRepository<User>, UserRepository>();
+            services.AddScoped<IRepository<Post>, PostRepository>();
+            services.AddScoped<IRepository<Follower>, FollowerRepository>();
+            services.AddScoped<IRepository<Comment>, CommentRepository>();
+            services.AddScoped<IRepository<ChatMessage>, ChatMessageRepository>();
+            services.AddScoped<IRepository<ChallengeParticipant>, ChallengeParticipantRepository>();
+            services.AddScoped<IRepository<Challenge>, ChallengeRepository>();
+            services.AddScoped<IRepository<Achievement>, AchievementRepository>();
 
 
             return services;
