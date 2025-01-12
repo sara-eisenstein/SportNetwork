@@ -1,0 +1,57 @@
+[1mdiff --git a/Service/Services/FollowerService.cs b/Service/Services/FollowerService.cs[m
+[1mindex 6addd2d..7725dda 100644[m
+[1m--- a/Service/Services/FollowerService.cs[m
+[1m+++ b/Service/Services/FollowerService.cs[m
+[36m@@ -1,4 +1,8 @@[m
+[31m-﻿using System;[m
+[32m+[m[32m﻿using AutoMapper;[m
+[32m+[m[32musing Repositorys.Entities;[m
+[32m+[m[32musing Repositorys.Interface;[m
+[32m+[m[32musing Service.Interfaces;[m
+[32m+[m[32musing System;[m
+ using System.Collections.Generic;[m
+ using System.Linq;[m
+ using System.Text;[m
+[36m@@ -6,7 +10,41 @@[m [musing System.Threading.Tasks;[m
+ [m
+ namespace Service.Services[m
+ {[m
+[31m-    internal class FollowerService[m
+[32m+[m[32m    public class FollowerService : IService<FollowerDto>[m
+     {[m
+[32m+[m[32m        private readonly IRepository<Follower> repository;[m
+[32m+[m[32m        private readonly IMapper mapper;[m
+[32m+[m[32m        public FollowerService(IRepository<Follower> repository, IMapper mapper)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            this.repository = repository;[m
+[32m+[m[32m            this.mapper = mapper;[m
+[32m+[m[32m        }[m
+[32m+[m[41m    [m
+[32m+[m[32m        public FollowerDto Add(FollowerDto item)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            var entity = mapper.Map<Follower>(item);[m
+[32m+[m[32m            return mapper.Map<FollowerDto>(repository.Add(entity));[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        public void Delete(int id)[m
+[32m+[m[32m        {[m
+[32m+[m[32m           repository.Delete(id);[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        public FollowerDto Get(int id)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            return mapper.Map<FollowerDto>(Get(id));[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        public List<FollowerDto> GetAll()[m
+[32m+[m[32m        {[m
+[32m+[m[32m            return mapper.Map<List<FollowerDto>>(GetAll());[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        public FollowerDto Update(FollowerDto item)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            var entity = mapper.Map<Follower>(item);[m
+[32m+[m[32m            return mapper.Map<FollowerDto>(repository.Update(entity));[m
+[32m+[m[32m        }[m
+     }[m
+ }[m
