@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Dto;
+
 
 namespace Service.Services
 {
@@ -14,12 +16,13 @@ namespace Service.Services
     {
         private readonly IRepository<Follower> repository;
         private readonly IMapper mapper;
+
         public FollowerService(IRepository<Follower> repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
         }
-    
+
         public FollowerDto Add(FollowerDto item)
         {
             var entity = mapper.Map<Follower>(item);
@@ -28,17 +31,17 @@ namespace Service.Services
 
         public void Delete(int id)
         {
-           repository.Delete(id);
+            repository.Delete(id);
         }
 
         public FollowerDto Get(int id)
         {
-            return mapper.Map<FollowerDto>(Get(id));
+            return mapper.Map<FollowerDto>(repository.Get(id));
         }
 
         public List<FollowerDto> GetAll()
         {
-            return mapper.Map<List<FollowerDto>>(GetAll());
+            return mapper.Map<List<FollowerDto>>(repository.GetAll());
         }
 
         public FollowerDto Update(FollowerDto item)

@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace Common.Dto
 {
-    public class postDto
+    public class PostDto
     {
         public int PostId { get; set; }
-
-        public int UserId { get; set; } // Foreign key to User
-        public User User { get; set; }
-
+        public int UserId { get; set; }
         public string Content { get; set; }
         public string Media { get; set; }
         public int Likes { get; set; }
