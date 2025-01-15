@@ -16,12 +16,9 @@ namespace Repositorys.Entities
         public string ProfilePicture { get; set; }
         public string Goals { get; set; }
         public string Bio { get; set; }
+        public bool Status { get; set; }
         public DateTime DateJoined { get; set; }
-
-        public List<Post> Posts { get; set; }
-        public List<Follower> Followers
-        {
-            get; set;
-        }
+        public ICollection<Post> Posts { get; set; }
+        public ICollection<Follower> Followers{ get; set;}
     }
 }
