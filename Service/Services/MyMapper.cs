@@ -12,21 +12,36 @@ using Common.Dto;
 
 namespace Service.Services
 {
-  
-       
+
+
     //TODO להוסיף מה שצריך בשביל תמונות
-public class MyMapper : Profile
+    public class MyMapper : Profile
     {
         public MyMapper()
         {
             // Map בין User ל-UserDto
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserDto>()
+                .ForMember(dest => dest.ProfilePicture, src => src
+                .MapFrom(s => ConvertToByte(Environment.CurrentDirectory + "/media/" + s.ProfilePicture)));
+
+            CreateMap<UserDto, User>()
+                .ForMember(dest => dest.ProfilePicture, src => src
+                .MapFrom(s => s.File.FileName));
+
+
 
             // Map בין Post ל-PostDto
             CreateMap<Post, PostDto>()
-                .ForMember(dest => dest.CreatedDate, src => 
-                src.MapFrom(s => s.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")))
-                .ReverseMap();
+            .ForMember(dest => dest.CreatedDate, src =>
+        src.MapFrom(src => src.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")))
+    .ForMember(dest => dest.Media, src =>
+        src.MapFrom(src => ConvertToByte(Path.Combine(Environment.CurrentDirectory, "media", src.Media))))
+    .ReverseMap();
+
+            CreateMap<PostDto, Post>()
+                .ForMember(dest => dest.Media, src => src
+                .MapFrom(s => s.File.FileName));
+
 
             // Map בין Comment ל-CommentDto
             CreateMap<Comment, CommentDto>().ReverseMap();
@@ -42,6 +57,14 @@ public class MyMapper : Profile
 
             // Map בין ChatMessage ל-ChatMessageDto
             CreateMap<ChatMessage, ChatMessageDto>().ReverseMap();
+
+
+
+        }
+        public byte[] ConvertToByte(string media)
+        {
+            var res = System.IO.File.ReadAllBytes(media);
+            return res;
         }
     }
 

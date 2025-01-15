@@ -13,7 +13,7 @@ namespace Repositorys.Entities
 
         [ForeignKey("User")]
         public int UserId { get; set; } // Foreign key to User
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         public string Title { get; set; }
         public string Description { get; set; }

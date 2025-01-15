@@ -11,12 +11,12 @@ namespace Repositorys.Entities
     {
         public int FollowerId { get; set; }
 
-        [ForeignKey("User")]
+        [ForeignKey("UserId")]
         public int UserId { get; set; } // The user being followed
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
-        [ForeignKey("FollowerUser")]
+        [ForeignKey("FollowerUserId")]
         public int FollowerUserId { get; set; } // The user following
-        public User FollowerUser { get; set; }
+        public virtual User FollowerUser { get; set; }
     }
 }

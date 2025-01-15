@@ -13,11 +13,11 @@ namespace Repositorys.Entities
 
         [ForeignKey("Sender")]
         public int SenderId { get; set; } // Foreign key to User
-        public User Sender { get; set; }
+        public virtual User Sender { get; set; }
 
         [ForeignKey("Recipient")]
         public int RecipientId { get; set; } // Foreign key to User
-        public User Recipient { get; set; }
+        public virtual User Recipient { get; set; }
 
         public string MessageContent { get; set; }
         public DateTime SentDate { get; set; }

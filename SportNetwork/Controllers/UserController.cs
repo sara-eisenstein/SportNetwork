@@ -12,7 +12,7 @@ namespace SportNetwork.Controllers
     {
 
         private readonly IService<UserDto> _userService;
-        public static string _Directory=Environment.CurrentDirectory+"/images/";
+        public static string _Directory=Environment.CurrentDirectory+"/media/";
         public UserController(IService<UserDto> userService)
         {
             this._userService = userService;
@@ -35,7 +35,12 @@ namespace SportNetwork.Controllers
         [HttpPost]
         public void Post([FromBody] UserDto value)
         {
-            _userService.Add(value);
+            var filePath = Path.Combine
+                (Environment.CurrentDirectory, "media/", value.File.FileName);
+            using (FileStream fs = new FileStream(filePath, FileMode.Create)) {
+                value.File.CopyTo(fs);
+            }
+                _userService.Add(value);
         }
 
         // PUT api/<UserController>/5

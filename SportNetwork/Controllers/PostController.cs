@@ -11,6 +11,8 @@ namespace SportNetwork.Controllers
     public class PostController : ControllerBase
     {
         private readonly IService<PostDto> _postDervice;
+        public static string _Directory = Environment.CurrentDirectory + "/media/";
+
         public PostController(IService<PostDto> postDervice)
         {
             _postDervice = postDervice;
@@ -34,6 +36,12 @@ namespace SportNetwork.Controllers
         [HttpPost]
         public void Post([FromBody] PostDto value)
         {
+            var filePath = Path.Combine
+                (Environment.CurrentDirectory, "media/", value.File.FileName);
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            {
+                value.File.CopyTo(fs);
+            }
             _postDervice.Add(value);
         }
 

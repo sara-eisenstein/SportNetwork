@@ -11,9 +11,10 @@ namespace Repositorys.Entities
         public int ChallengeId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public FitnessLevel Level { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public ICollection<ChallengeParticipant> Participants { get; set; }
+        public virtual ICollection<ChallengeParticipant> Participants { get; set; }
     }
 }
