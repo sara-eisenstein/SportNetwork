@@ -52,6 +52,7 @@ namespace Repositorys.Rpository
                 existingChallenge.Description = item.Description;
                 existingChallenge.StartDate = item.StartDate;
                 existingChallenge.EndDate = item.EndDate;
+                existingChallenge.Level = item.Level;
                 context.Save();
             }
             return existingChallenge;
