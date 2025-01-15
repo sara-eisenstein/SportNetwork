@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using Common.Dto;
+using Microsoft.AspNetCore.Mvc;
+using Service.Interfaces;
 
 namespace SportNetwork.Controllers
 {
@@ -8,36 +8,41 @@ namespace SportNetwork.Controllers
     [ApiController]
     public class ChatMessageController : ControllerBase
     {
-        // GET: api/<ChatMessageController>
+        private readonly IService<ChatMessageDto> _chatMessageService;
+
+        public ChatMessageController(IService<ChatMessageDto> service)
+        {
+            _chatMessageService = service;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<ChatMessageDto> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _chatMessageService.GetAll();
         }
 
-        // GET api/<ChatMessageController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ChatMessageDto Get(int id)
         {
-            return "value";
+            return _chatMessageService.Get(id);
         }
 
-        // POST api/<ChatMessageController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] ChatMessageDto value)
         {
+            _chatMessageService.Add(value);
         }
 
-        // PUT api/<ChatMessageController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] ChatMessageDto value)
         {
+            _chatMessageService.Update(value);
         }
 
-        // DELETE api/<ChatMessageController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _chatMessageService.Delete(id);
         }
     }
 }

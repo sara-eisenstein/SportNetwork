@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using Common.Dto;
+using Microsoft.AspNetCore.Mvc;
+using Service.Interfaces;
 
 namespace SportNetwork.Controllers
 {
@@ -8,36 +8,41 @@ namespace SportNetwork.Controllers
     [ApiController]
     public class ChallengeController : ControllerBase
     {
-        // GET: api/<ChallengeController>
+        private readonly IService<ChallengeDto> _challengeService;
+
+        public ChallengeController(IService<ChallengeDto> service)
+        {
+            _challengeService = service;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<ChallengeDto> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _challengeService.GetAll();
         }
 
-        // GET api/<ChallengeController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ChallengeDto Get(int id)
         {
-            return "value";
+            return _challengeService.Get(id);
         }
 
-        // POST api/<ChallengeController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] ChallengeDto value)
         {
+            _challengeService.Add(value);
         }
 
-        // PUT api/<ChallengeController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] ChallengeDto value)
         {
+            _challengeService.Update(value);
         }
 
-        // DELETE api/<ChallengeController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _challengeService.Delete(id);
         }
     }
 }

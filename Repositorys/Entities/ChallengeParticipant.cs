@@ -13,11 +13,11 @@ namespace Repositorys.Entities
 
         [ForeignKey("Challenge")]
         public int ChallengeId { get; set; } // Foreign key to Challenge
-        public Challenge Challenge { get; set; }
+        public virtual Challenge Challenge { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; } // Foreign key to User
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         public string Progress { get; set; }
     }

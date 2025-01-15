@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,12 @@ namespace Common.Dto
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public string ProfilePicture { get; set; }
         public string Goals { get; set; }
         public string Bio { get; set; }
         public bool Status { get; set; }
         public DateTime DateJoined { get; set; }
+        public byte[]? ProfilePicture { get; set; }
+        public IFormFile? File { get; set; }
+
     }
 }

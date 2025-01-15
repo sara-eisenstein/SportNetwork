@@ -14,6 +14,6 @@ namespace Repositorys.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public ICollection<ChallengeParticipant> Participants { get; set; }
+        public virtual ICollection<ChallengeParticipant> Participants { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Repositorys.Entities
 {
+    
     public class User
     {
         public int UserId { get; set; }
@@ -18,7 +19,7 @@ namespace Repositorys.Entities
         public string Bio { get; set; }
         public bool Status { get; set; }
         public DateTime DateJoined { get; set; }
-        public ICollection<Post> Posts { get; set; }
-        public ICollection<Follower> Followers{ get; set;}
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Follower> Followers{ get; set;}
     }
 }
