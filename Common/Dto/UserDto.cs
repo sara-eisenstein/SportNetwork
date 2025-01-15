@@ -16,6 +16,7 @@ namespace Common.Dto
         public string ProfilePicture { get; set; }
         public string Goals { get; set; }
         public string Bio { get; set; }
+        public bool Status { get; set; }
         public DateTime DateJoined { get; set; }
     }
 }

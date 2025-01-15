@@ -20,7 +20,7 @@ namespace Repositorys.Entities
         public int Likes { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
     }
 }

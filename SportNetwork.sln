@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportNetwork", "SportNetwork\SportNetwork.csproj", "{E4EC9C4C-09B2-4CF3-BAE2-C60F01D028FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SportNetwork", "SportNetwork\SportNetwork.csproj", "{E4EC9C4C-09B2-4CF3-BAE2-C60F01D028FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositorys", "Repositorys\Repositorys.csproj", "{634B9B31-B67A-4964-877F-1B395EF1AC49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositorys", "Repositorys\Repositorys.csproj", "{634B9B31-B67A-4964-877F-1B395EF1AC49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{88495C35-CBB5-4ACA-ABA9-BD97741A4C0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{88495C35-CBB5-4ACA-ABA9-BD97741A4C0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{70708A5C-60FE-477C-9E1F-6B5409BADA04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{70708A5C-60FE-477C-9E1F-6B5409BADA04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mock", "Mock\Mock.csproj", "{EF00F915-9276-4223-B2EA-800285856C36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{70708A5C-60FE-477C-9E1F-6B5409BADA04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70708A5C-60FE-477C-9E1F-6B5409BADA04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70708A5C-60FE-477C-9E1F-6B5409BADA04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF00F915-9276-4223-B2EA-800285856C36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF00F915-9276-4223-B2EA-800285856C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF00F915-9276-4223-B2EA-800285856C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF00F915-9276-4223-B2EA-800285856C36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

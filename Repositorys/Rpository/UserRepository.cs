@@ -47,7 +47,8 @@ namespace Repositorys.Rpository
             user.FirstName = entity.FirstName;  
             user.LastName = entity.LastName;    
             user.DateJoined = entity.DateJoined;
-            user.Bio=entity.Bio;    
+            user.Bio=entity.Bio; 
+            user.Status = entity.Status;
             _context.users.Add(user);
             _context.Save();
             return user;
