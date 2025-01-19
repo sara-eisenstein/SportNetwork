@@ -35,7 +35,7 @@ namespace Service.Services
             .ForMember(dest => dest.CreatedDate, src =>
         src.MapFrom(src => src.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")))
     .ForMember(dest => dest.Media, src =>
-        src.MapFrom(src => ConvertToByte(Path.Combine(Environment.CurrentDirectory, "media", src.Media))))
+        src.MapFrom(src => ConvertToByte(Environment.CurrentDirectory+ "/media/"+ src.Media)))
     .ReverseMap();
 
             CreateMap<PostDto, Post>()

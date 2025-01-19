@@ -13,9 +13,11 @@ namespace Common.Dto
         public int PostId { get; set; }
         public int UserId { get; set; }
         public string Content { get; set; }
-        public Byte[]? Media { get; set; }
+        
         public int Likes { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public Byte[]? Media { get; set; }
         public IFormFile File { get; set; }
     }
 }
