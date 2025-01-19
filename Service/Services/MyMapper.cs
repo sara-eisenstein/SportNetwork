@@ -61,9 +61,9 @@ namespace Service.Services
 
 
         }
-        public byte[] ConvertToByte(string media)
+        public byte[] ConvertToByte(string img)
         {
-            var res = System.IO.File.ReadAllBytes(media);
+            var res = System.IO.File.ReadAllBytes(img);
             return res;
         }
     }
