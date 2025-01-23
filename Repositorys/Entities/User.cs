@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,11 @@ namespace Repositorys.Entities
         public bool Status { get; set; }
         public DateTime DateJoined { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
-        public virtual ICollection<Follower> Followers{ get; set;}
+
+        [InverseProperty("User")]
+        public virtual ICollection<Follower> Followers { get; set; }
+        // משתמשים שהמשתמש הנוכחי עוקב אחריהם
+        [InverseProperty("FollowerUser")]
+        public virtual ICollection<Follower> Following { get; set; }
     }
 }

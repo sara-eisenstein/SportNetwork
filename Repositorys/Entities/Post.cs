@@ -22,8 +22,9 @@ namespace Repositorys.Entities
         public DateTime CreatedDate { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
-        public byte[]? Media { get; set; }
-        public IFormFile? File { get; set; }
+
+        public string? Media { get; set; }
+
 
     }
 }

@@ -29,7 +29,7 @@ namespace Mock
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=DESKTOP-1VUANBN;database=sport_network;trusted_connection=true"); 
+            optionsBuilder.UseSqlServer("server=COMPUTER;database=sport_network;trusted_connection=true"); 
         }
 
     }
