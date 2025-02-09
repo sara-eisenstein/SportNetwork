@@ -58,7 +58,7 @@ namespace SportNetwork.Controllers
 
         // POST api/<LoginController>
         [HttpPost]
-        public IActionResult Post([FromBody] string firstName, [FromBody]string lastName, [FromBody]string password)
+        public IActionResult Post([FromQuery] string firstName, [FromQuery]string lastName, [FromQuery]string password)
         {
             var user=Authenticate(firstName,lastName,password);
             if (user != null) {
