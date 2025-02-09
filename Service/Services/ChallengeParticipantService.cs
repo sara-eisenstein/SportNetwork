@@ -38,10 +38,10 @@ namespace Service.Services
             repository.Delete(id);
         }
 
-        public ChallengeParticipantDto Update(ChallengeParticipantDto item)
+        public ChallengeParticipantDto Update(ChallengeParticipantDto item, int id)
         {
             var entity = mapper.Map<ChallengeParticipant>(item);
-            return mapper.Map<ChallengeParticipantDto>(repository.Update(entity));
+            return mapper.Map<ChallengeParticipantDto>(repository.Update(entity, id));
         }
 
         public ChallengeParticipantDto Add(ChallengeParticipantDto item)

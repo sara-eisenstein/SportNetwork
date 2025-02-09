@@ -43,13 +43,14 @@ namespace Repositorys.Rpository
         {
             return context.followers.ToList();
         }
-        public Follower Update(Follower item)
+        public Follower Update(Follower item, int id)
         {
-            var existingFollower = Get(item.FollowerId);
+            var existingFollower = Get(id);
             if (existingFollower != null)
             {
                 existingFollower.UserId = item.UserId;
                 existingFollower.FollowerUserId = item.FollowerUserId;
+                context.followers.Update(existingFollower);
                 context.Save();
             }
             return existingFollower;

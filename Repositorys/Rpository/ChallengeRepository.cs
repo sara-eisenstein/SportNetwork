@@ -43,9 +43,9 @@ namespace Repositorys.Rpository
             return context.challenges.ToList();
         }
 
-        public Challenge Update(Challenge item)
+        public Challenge Update(Challenge item, int id)
         {
-            var existingChallenge = Get(item.ChallengeId);
+            var existingChallenge = Get(id);
             if (existingChallenge != null)
             {
                 existingChallenge.Title = item.Title;
@@ -53,6 +53,7 @@ namespace Repositorys.Rpository
                 existingChallenge.StartDate = item.StartDate;
                 existingChallenge.EndDate = item.EndDate;
                 existingChallenge.Level = item.Level;
+                context.challenges.Update(existingChallenge);
                 context.Save();
             }
             return existingChallenge;

@@ -39,18 +39,18 @@ namespace Repositorys.Rpository
             return _context.users.ToList();  
         }
 
-        public User Update(User entity)
+        public User Update(User entity,int id)
         {
-            User user = Get(entity.UserId);
+            User user = Get(id);
             user.ProfilePicture = entity.ProfilePicture;
             user.Email = entity.Email;
             user.FirstName = entity.FirstName;  
             user.LastName = entity.LastName;    
             user.DateJoined = entity.DateJoined;
             user.Bio=entity.Bio; 
-            user.Level = entity.Level;
-            user.Level = entity.Level;  
-            _context.users.Add(user);
+            user.Level = entity.Level; 
+            user.Status = entity.Status;    
+            _context.users.Update(user);
             _context.Save();
             return user;
 

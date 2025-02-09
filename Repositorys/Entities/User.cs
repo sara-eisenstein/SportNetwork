@@ -26,18 +26,15 @@ namespace Repositorys.Entities
         public string Goals { get; set; }
         public string Bio { get; set; }
         public DateTime DateJoined { get; set; }
-
+        public bool Status { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
 
-<<<<<<< HEAD
+
         // משתמשים שעוקבים אחרי המשתמש הנוכחי
         [InverseProperty("User")]
         public virtual ICollection<Follower> Followers { get; set; }
 
-=======
-        [InverseProperty("User")]
-        public virtual ICollection<Follower> Followers { get; set; }
->>>>>>> origin/correct_migrations
+
         // משתמשים שהמשתמש הנוכחי עוקב אחריהם
         [InverseProperty("FollowerUser")]
         public virtual ICollection<Follower> Following { get; set; }

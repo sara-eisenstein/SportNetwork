@@ -36,7 +36,7 @@ namespace SportNetwork.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromForm] ChatMessageDto value)
         {
-            _chatMessageService.Update(value);
+            _chatMessageService.Update(value, id);
         }
 
         [HttpDelete("{id}")]

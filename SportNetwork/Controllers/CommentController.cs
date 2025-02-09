@@ -36,7 +36,7 @@ namespace SportNetwork.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromForm] CommentDto value)
         {
-            _commentservice.Update(value);
+            _commentservice.Update(value, id);
         }
 
         // DELETE api/<CommentController>/5

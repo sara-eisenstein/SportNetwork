@@ -41,7 +41,7 @@ namespace SportNetwork.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromForm] FollowerDto value)
         {
-            _followerService.Update(value);
+            _followerService.Update(value,id);
         }
 
         // DELETE api/<FollowerController>/5

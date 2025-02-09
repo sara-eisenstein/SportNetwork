@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
+using Service.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,6 +32,13 @@ namespace SportNetwork.Controllers
         {
             return _postDervice.Get(id);
         }
+        [HttpGet("getimage/{id}")]
+        public IActionResult GetImage(int id)
+        {
+
+            PostDto p = _postDervice.Get(id);
+            return File(p.Media, "image/jpg");
+        }
 
         // POST api/<PostController>
         [HttpPost]
@@ -49,7 +57,7 @@ namespace SportNetwork.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromForm] PostDto value)
         {
-            _postDervice.Update(value);
+            _postDervice.Update(value, id);
         }
 
         // DELETE api/<PostController>/5

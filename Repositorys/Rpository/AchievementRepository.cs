@@ -44,15 +44,16 @@ namespace Repositorys.Rpository
             return context.achivevements.ToList();
         }
 
-        public Achievement Update(Achievement item)
+        public Achievement Update(Achievement item, int id  )
         {
-            var existingAchievement = Get(item.AchievementId);
+            var existingAchievement = Get(  id);
             if (existingAchievement != null)
             {
                 existingAchievement.UserId = item.UserId;
                 existingAchievement.Title = item.Title;
                 existingAchievement.Description = item.Description;
                 existingAchievement.DateEarned = item.DateEarned;
+                context.achivevements.Update(existingAchievement);  
                 context.Save();
             }
             return existingAchievement;

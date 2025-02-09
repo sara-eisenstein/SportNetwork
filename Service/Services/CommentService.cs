@@ -45,10 +45,10 @@ namespace Service.Services
             return mapper.Map<List<CommentDto>>(repository.GetAll());
         }
 
-        public CommentDto Update(CommentDto item)
+        public CommentDto Update(CommentDto item, int id)
         {
             var entity = mapper.Map<Comment>(item);
-            return mapper.Map<CommentDto>(repository.Update(entity));
+            return mapper.Map<CommentDto>(repository.Update(entity, id));
         }
     }
 }

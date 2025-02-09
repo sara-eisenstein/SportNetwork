@@ -36,7 +36,7 @@ namespace SportNetwork.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromForm] ChallengeDto value)
         {
-            _challengeService.Update(value);
+            _challengeService.Update(value, id  );
         }
 
         [HttpDelete("{id}")]

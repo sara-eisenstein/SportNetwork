@@ -44,15 +44,15 @@ namespace Repositorys.Rpository
             return context.posts.ToList();
         }
 
-        public Post Update(Post item)
+        public Post Update(Post item, int id)
         {
-            var existingPost = Get(item.PostId);
+            var existingPost = Get(id);
             if (existingPost != null)
             {
                 existingPost.Content = item.Content;
                 existingPost.Media = item.Media;
                 existingPost.Likes = item.Likes;
-                existingPost.CreatedDate = item.CreatedDate;
+                context.posts.Update(existingPost);    
                 context.Save();
             }
             return existingPost;
