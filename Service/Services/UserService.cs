@@ -44,10 +44,10 @@ namespace Service.Services
             return mapper.Map<List<UserDto>>(repository.GetAll());
         }
 
-        public UserDto Update(UserDto item)
+        public UserDto Update(UserDto item, int id)
         {
             var entity = mapper.Map<User>(item);
-            return mapper.Map<UserDto>(repository.Update(entity));
+            return mapper.Map<UserDto>(repository.Update(entity, id));
         }
     }
 }

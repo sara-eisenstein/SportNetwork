@@ -32,16 +32,16 @@ namespace SportNetwork.Controllers
 
         // POST api/<FollowerController>
         [HttpPost]
-        public void Post([FromBody] FollowerDto value)
+        public void Post([FromForm] FollowerDto value)
         {
             _followerService.Add(value);
         }
 
         // PUT api/<FollowerController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] FollowerDto value)
+        public void Put(int id, [FromForm] FollowerDto value)
         {
-            _followerService.Update(value);
+            _followerService.Update(value, id);
         }
 
         // DELETE api/<FollowerController>/5

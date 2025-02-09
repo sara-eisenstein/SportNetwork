@@ -9,7 +9,7 @@ namespace Common.Dto
 {
     public class FollowerDto
     {
-        public int FollowerId { get; set; }
+        public int? FollowerId { get; set; }
         public int UserId { get; set; }
         public int FollowerUserId { get; set; }
     }

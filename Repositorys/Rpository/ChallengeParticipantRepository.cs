@@ -44,14 +44,16 @@ namespace Repositorys.Rpository
             return context.challengeParticipants.ToList();
         }
 
-        public ChallengeParticipant Update(ChallengeParticipant item)
+        public ChallengeParticipant Update(ChallengeParticipant item,int id)
         {
-            var existingParticipant = Get(item.ChallengeParticipantId);
+            var existingParticipant = Get(id);
             if (existingParticipant != null)
             {
                 existingParticipant.ChallengeId = item.ChallengeId;
                 existingParticipant.UserId = item.UserId;
                 existingParticipant.Progress = item.Progress;
+                context.challengeParticipants.Update(existingParticipant);
+
                 context.Save();
             }
             return existingParticipant;

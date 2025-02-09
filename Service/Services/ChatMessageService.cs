@@ -38,10 +38,10 @@ namespace Service.Services
             repository.Delete(id);
         }
 
-        public ChatMessageDto Update(ChatMessageDto item)
+        public ChatMessageDto Update(ChatMessageDto item, int id)
         {
             var entity = mapper.Map<ChatMessage>(item);
-            return mapper.Map<ChatMessageDto>(repository.Update(entity));
+            return mapper.Map<ChatMessageDto>(repository.Update(entity, id));
         }
 
         public ChatMessageDto Add(ChatMessageDto item)

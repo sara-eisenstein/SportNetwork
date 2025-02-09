@@ -33,7 +33,7 @@ namespace SportNetwork.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] UserDto value)
+        public void Post([FromForm] UserDto value)
         {
             var filePath = Path.Combine
                 (Environment.CurrentDirectory, "media/", value.File.FileName);
@@ -45,9 +45,9 @@ namespace SportNetwork.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] UserDto value)
+        public void Put(int id, [FromForm] UserDto value)
         {
-            _userService.Update(value);
+            _userService.Update(value, id);
         }
 
         // DELETE api/<UserController>/5
@@ -55,6 +55,13 @@ namespace SportNetwork.Controllers
         public void Delete(int id)
         {
             _userService.Delete(id);    
+        }
+
+        [HttpGet("/getUserImage/{id}")]
+        public IActionResult GetImage(int id)
+        {
+            UserDto u = _userService.Get(id);
+            return File(u.ProfilePicture,"image/jpg");
         }
     }
 }

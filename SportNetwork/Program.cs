@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<IContext, DataBase>();
 builder.Services.AddServiceExtension();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.)
+
 //TODO להוסיף פה לפי המורה מה שצריך לטוקן
 
 //enable cors

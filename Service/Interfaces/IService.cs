@@ -11,7 +11,7 @@ namespace Service.Interfaces
         List<T> GetAll();
         T Get(int id);
         void Delete(int id);
-        T Update(T item);
+        T Update(T item,int id);
         T Add(T item);
     }
 }
