@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mock;
 
@@ -11,9 +12,10 @@ using Mock;
 namespace Mock.Migrations
 {
     [DbContext(typeof(DataBase))]
-    partial class DataBaseModelSnapshot : ModelSnapshot
+    [Migration("20250119214704_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,11 +50,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-<<<<<<< HEAD
                     b.ToTable("achivevements");
-=======
-                    b.ToTable("achivevements", (string)null);
->>>>>>> origin/correct_migrations
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Challenge", b =>
@@ -82,11 +80,7 @@ namespace Mock.Migrations
 
                     b.HasKey("ChallengeId");
 
-<<<<<<< HEAD
                     b.ToTable("challenges");
-=======
-                    b.ToTable("challenges", (string)null);
->>>>>>> origin/correct_migrations
                 });
 
             modelBuilder.Entity("Repositorys.Entities.ChallengeParticipant", b =>
@@ -113,11 +107,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-<<<<<<< HEAD
                     b.ToTable("challengeParticipants");
-=======
-                    b.ToTable("challengeParticipants", (string)null);
->>>>>>> origin/correct_migrations
                 });
 
             modelBuilder.Entity("Repositorys.Entities.ChatMessage", b =>
@@ -130,12 +120,8 @@ namespace Mock.Migrations
 
                     b.Property<string>("MessageContent")
                         .IsRequired()
-<<<<<<< HEAD
-                        .HasColumnType("nvarchar(max)");
-=======
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
->>>>>>> origin/correct_migrations
 
                     b.Property<int>("RecipientId")
                         .HasColumnType("int");
@@ -152,11 +138,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("SenderId");
 
-<<<<<<< HEAD
                     b.ToTable("chatMessages");
-=======
-                    b.ToTable("chatMessages", (string)null);
->>>>>>> origin/correct_migrations
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Comment", b =>
@@ -186,11 +168,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-<<<<<<< HEAD
                     b.ToTable("comments");
-=======
-                    b.ToTable("comments", (string)null);
->>>>>>> origin/correct_migrations
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Follower", b =>
@@ -213,11 +191,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-<<<<<<< HEAD
                     b.ToTable("followers");
-=======
-                    b.ToTable("followers", (string)null);
->>>>>>> origin/correct_migrations
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Post", b =>
@@ -248,11 +222,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-<<<<<<< HEAD
                     b.ToTable("posts");
-=======
-                    b.ToTable("posts", (string)null);
->>>>>>> origin/correct_migrations
                 });
 
             modelBuilder.Entity("Repositorys.Entities.User", b =>
@@ -297,18 +267,12 @@ namespace Mock.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<< HEAD
-                    b.HasKey("UserId");
-
-                    b.ToTable("users");
-=======
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.HasKey("UserId");
 
-                    b.ToTable("users", (string)null);
->>>>>>> origin/correct_migrations
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Achievement", b =>

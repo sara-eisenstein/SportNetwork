@@ -34,14 +34,14 @@ namespace SportNetwork.Controllers
 
         // POST api/<AchievementController>
         [HttpPost]
-        public void Post([FromBody] AchievementDto value)
+        public void Post([FromForm] AchievementDto value)
         {
             _achievementService.Add(value);
         }
 
         // PUT api/<AchievementController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] AchievementDto value)
+        public void Put(int id, [FromForm] AchievementDto value)
         {
             _achievementService.Update(value);
         }

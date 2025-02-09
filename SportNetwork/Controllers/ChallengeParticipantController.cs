@@ -35,14 +35,14 @@ namespace SportNetwork.Controllers
 
         // POST api/<ChallengeParticipantController>
         [HttpPost]
-        public void Post([FromBody] ChallengeParticipantDto value)
+        public void Post([FromForm] ChallengeParticipantDto value)
         {
             _challengeParticipantService.Add(value);
         }
 
         // PUT api/<ChallengeParticipantController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] ChallengeParticipantDto value)
+        public void Put(int id, [FromForm ] ChallengeParticipantDto value)
         {
             _challengeParticipantService.Update(value);
 

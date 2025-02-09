@@ -33,7 +33,7 @@ namespace SportNetwork.Controllers
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] UserDto value)
+        public void Post([FromForm] UserDto value)
         {
             var filePath = Path.Combine
                 (Environment.CurrentDirectory, "media/", value.File.FileName);
@@ -45,7 +45,7 @@ namespace SportNetwork.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] UserDto value)
+        public void Put(int id, [FromForm] UserDto value)
         {
             _userService.Update(value);
         }
