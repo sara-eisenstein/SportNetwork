@@ -50,6 +50,7 @@ namespace Repositorys.Rpository
             }
 
             // עדכון השדות הרצויים
+
             user.Email = entity.Email;
             user.ProfilePicture = entity.ProfilePicture;
             user.FirstName = entity.FirstName;
@@ -60,6 +61,7 @@ namespace Repositorys.Rpository
             user.Level = entity.Level;
 
             // שמירת השינויים ל-DB
+
             _context.users.Update(user);
             _context.Save();
 

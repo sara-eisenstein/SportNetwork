@@ -49,6 +49,7 @@ namespace Repositorys.Rpository
         {
             var existingPost = Get(id);
             if (existingPost == null)
+
             {
                 throw new Exception($"Post with ID {item.PostId} not found.");
             }
@@ -62,7 +63,7 @@ namespace Repositorys.Rpository
             context.posts.Update(existingPost);
 
             context.Save();
-            
+
             return existingPost;
         }
     }

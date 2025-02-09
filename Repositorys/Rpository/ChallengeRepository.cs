@@ -43,7 +43,9 @@ namespace Repositorys.Rpository
             return context.challenges.ToList();
         }
 
+
         public Challenge Update(Challenge item,int id)
+
         {
             var existingChallenge = Get(id);
             if (existingChallenge != null)
@@ -55,6 +57,7 @@ namespace Repositorys.Rpository
                 existingChallenge.Level = item.Level;
 
                 context.challenges.Update(existingChallenge);
+
 
                 context.Save();
             }

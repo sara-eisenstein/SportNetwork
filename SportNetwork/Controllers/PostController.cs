@@ -32,6 +32,7 @@ namespace SportNetwork.Controllers
         {
             return _postDervice.Get(id);
         }
+        
 
         // POST api/<PostController>
         [HttpPost]

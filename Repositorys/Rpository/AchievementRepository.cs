@@ -47,6 +47,7 @@ namespace Repositorys.Rpository
         public Achievement Update(Achievement item, int id)
         {
             var existingAchievement = Get(id);
+
             if (existingAchievement != null)
             {
                 existingAchievement.UserId = item.UserId;
@@ -55,6 +56,7 @@ namespace Repositorys.Rpository
                 existingAchievement.DateEarned = item.DateEarned;
 
                 context.achivevements.Update(existingAchievement);
+
 
                 context.Save();
             }

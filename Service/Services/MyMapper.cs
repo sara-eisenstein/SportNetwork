@@ -43,6 +43,7 @@ namespace Service.Services
                 .MapFrom(s => s.File.FileName));
 
 
+
             // Map בין Comment ל-CommentDto
             CreateMap<Comment, CommentDto>().ReverseMap();
 
@@ -57,6 +58,8 @@ namespace Service.Services
 
             // Map בין ChatMessage ל-ChatMessageDto
             CreateMap<ChatMessage, ChatMessageDto>().ReverseMap();
+            //map בין ChallengeParticipant ל ChallengeParticipantDto
+            CreateMap<ChallengeParticipant, ChallengeParticipantDto>().ReverseMap();    
 
             // Map בין ChallengeParticipant ל-ChallengeParticipantDto
 

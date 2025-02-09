@@ -48,6 +48,7 @@ namespace Service.Services
         {
             var entity = mapper.Map<User>(item);
             return mapper.Map<UserDto>(repository.Update(entity, id));
+
         }
     }
 }

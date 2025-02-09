@@ -48,7 +48,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("achivevements", (string)null);
+                    b.ToTable("achivevements");
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Challenge", b =>
@@ -78,7 +78,7 @@ namespace Mock.Migrations
 
                     b.HasKey("ChallengeId");
 
-                    b.ToTable("challenges", (string)null);
+                    b.ToTable("challenges");
                 });
 
             modelBuilder.Entity("Repositorys.Entities.ChallengeParticipant", b =>
@@ -105,7 +105,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("challengeParticipants", (string)null);
+                    b.ToTable("challengeParticipants");
                 });
 
             modelBuilder.Entity("Repositorys.Entities.ChatMessage", b =>
@@ -136,7 +136,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("chatMessages", (string)null);
+                    b.ToTable("chatMessages");
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Comment", b =>
@@ -166,7 +166,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("comments", (string)null);
+                    b.ToTable("comments");
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Follower", b =>
@@ -189,7 +189,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("followers", (string)null);
+                    b.ToTable("followers");
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Post", b =>
@@ -220,7 +220,7 @@ namespace Mock.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("posts", (string)null);
+                    b.ToTable("posts");
                 });
 
             modelBuilder.Entity("Repositorys.Entities.User", b =>
@@ -265,12 +265,9 @@ namespace Mock.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
                     b.HasKey("UserId");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Repositorys.Entities.Achievement", b =>

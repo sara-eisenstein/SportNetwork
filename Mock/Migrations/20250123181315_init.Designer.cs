@@ -12,7 +12,7 @@ using Mock;
 namespace Mock.Migrations
 {
     [DbContext(typeof(DataBase))]
-    [Migration("20250119214704_init")]
+    [Migration("20250123181315_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,9 +266,6 @@ namespace Mock.Migrations
                     b.Property<string>("ProfilePicture")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
 
                     b.HasKey("UserId");
 

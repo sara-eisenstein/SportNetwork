@@ -30,6 +30,7 @@ namespace SportNetwork.Controllers
         {
             return _userService.Get(id);
         }
+   
 
         // POST api/<UserController>
         [HttpPost]
@@ -48,6 +49,7 @@ namespace SportNetwork.Controllers
         public void Put(int id, [FromForm] UserDto value)
         {
             _userService.Update(value, id);
+
         }
 
         // DELETE api/<UserController>/5

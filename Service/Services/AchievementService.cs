@@ -44,6 +44,7 @@ namespace Service.Services
         {
             var entity = mapper.Map<Achievement>(item);
             return mapper.Map<AchievementDto>(repository.Update(entity,id));
+
         }
 
         public AchievementDto Add(AchievementDto item)
