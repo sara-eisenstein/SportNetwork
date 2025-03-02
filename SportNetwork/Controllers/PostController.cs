@@ -32,13 +32,7 @@ namespace SportNetwork.Controllers
         {
             return _postDervice.Get(id);
         }
-        [HttpGet("getimage/{id}")]
-        public IActionResult GetImage(int id)
-        {
-
-            PostDto p = _postDervice.Get(id);
-            return File(p.Media, "image/jpg");
-        }
+        
 
         // POST api/<PostController>
         [HttpPost]
@@ -66,5 +60,13 @@ namespace SportNetwork.Controllers
         {
             _postDervice.Delete(id);
         }
+
+        [HttpGet("/getPostImage/{id}")]
+        public IActionResult GetImage(int id)
+        {
+            PostDto p = _postDervice.Get(id);
+            return File(p.Media, "image/jpg");
+        }
+
     }
 }

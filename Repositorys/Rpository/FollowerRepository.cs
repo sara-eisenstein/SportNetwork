@@ -50,7 +50,10 @@ namespace Repositorys.Rpository
             {
                 existingFollower.UserId = item.UserId;
                 existingFollower.FollowerUserId = item.FollowerUserId;
+
                 context.followers.Update(existingFollower);
+
+
                 context.Save();
             }
             return existingFollower;

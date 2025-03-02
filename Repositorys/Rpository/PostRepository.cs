@@ -1,4 +1,5 @@
-﻿using Repositorys.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Repositorys.Entities;
 using Repositorys.Interface;
 using System;
 using System.Collections.Generic;
@@ -44,17 +45,25 @@ namespace Repositorys.Rpository
             return context.posts.ToList();
         }
 
-        public Post Update(Post item, int id)
+        public Post Update(Post item,int id)
         {
             var existingPost = Get(id);
-            if (existingPost != null)
+            if (existingPost == null)
+
             {
+                throw new Exception($"Post with ID {item.PostId} not found.");
+            }
+            
                 existingPost.Content = item.Content;
                 existingPost.Media = item.Media;
                 existingPost.Likes = item.Likes;
-                context.posts.Update(existingPost);    
-                context.Save();
-            }
+            
+              
+
+            context.posts.Update(existingPost);
+
+            context.Save();
+
             return existingPost;
         }
     }

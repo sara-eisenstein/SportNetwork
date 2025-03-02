@@ -44,7 +44,8 @@ namespace Repositorys.Rpository
             return context.challengeParticipants.ToList();
         }
 
-        public ChallengeParticipant Update(ChallengeParticipant item, int id    )
+        public ChallengeParticipant Update(ChallengeParticipant item,int id)
+
         {
             var existingParticipant = Get(id);
             if (existingParticipant != null)
@@ -53,6 +54,8 @@ namespace Repositorys.Rpository
                 existingParticipant.UserId = item.UserId;
                 existingParticipant.Progress = item.Progress;
                 context.challengeParticipants.Update(existingParticipant);
+
+
                 context.Save();
             }
             return existingParticipant;

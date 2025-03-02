@@ -25,6 +25,7 @@ namespace Service.Services
             services.AddScoped<IService<PostDto>, PostService>();
             services.AddScoped<IService<FollowerDto>, FollowerService>();
             services.AddScoped<IService<CommentDto>, CommentService>();
+            services.AddScoped<IcommentService, ExtensionCommentService>();
             services.AddScoped<IService<ChatMessageDto>, ChatMessageService>();
             services.AddScoped<IService<ChallengeParticipantDto>, ChallengeParticipantService>();
             services.AddScoped<IService<ChallengeDto>, ChallengeService>();

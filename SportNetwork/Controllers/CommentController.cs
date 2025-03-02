@@ -11,6 +11,7 @@ namespace SportNetwork.Controllers
     public class CommentController : ControllerBase
     {
         private readonly IService<CommentDto> _commentservice;
+        private readonly IcommentService _commentservice2;  
         // GET: api/<CommentController>
         [HttpGet]
         public List<CommentDto> Get()
@@ -24,7 +25,13 @@ namespace SportNetwork.Controllers
         {
             return _commentservice.Get(id);
         }
+        // GET api/<CommentController>/5
+        [HttpGet("/getcommentByPostId/{id}")]
+        public List<CommentDto> GetCommentByPostId(int postId)
+        {
 
+            return _commentservice2.GetCommentByPostId(postId);
+        }
         // POST api/<CommentController>
         [HttpPost]
         public void Post([FromForm] CommentDto value)

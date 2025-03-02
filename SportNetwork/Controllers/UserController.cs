@@ -30,13 +30,7 @@ namespace SportNetwork.Controllers
         {
             return _userService.Get(id);
         }
-        [HttpGet("getimage/{id}")]
-        public IActionResult GetImage(int id)
-        {
-
-            UserDto u= _userService.Get(id);
-            return File(u.ProfilePicture, "image/jpg");
-        }
+   
 
         // POST api/<UserController>
         [HttpPost]
@@ -54,7 +48,8 @@ namespace SportNetwork.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromForm] UserDto value)
         {
-            _userService.Update(value,id);
+            _userService.Update(value, id);
+
         }
 
         // DELETE api/<UserController>/5
@@ -62,6 +57,13 @@ namespace SportNetwork.Controllers
         public void Delete(int id)
         {
             _userService.Delete(id);    
+        }
+
+        [HttpGet("/getUserImage/{id}")]
+        public IActionResult GetImage(int id)
+        {
+            UserDto u = _userService.Get(id);
+            return File(u.ProfilePicture,"image/jpg");
         }
     }
 }

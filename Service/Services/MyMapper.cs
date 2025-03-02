@@ -14,7 +14,6 @@ namespace Service.Services
 {
 
 
-    //TODO להוסיף מה שצריך בשביל תמונות
     public class MyMapper : Profile
     {
         public MyMapper()
@@ -38,6 +37,7 @@ namespace Service.Services
         src.MapFrom(s => ConvertToByte(Environment.CurrentDirectory + "/media/" + s.Media)))
     .ReverseMap();
 
+
             CreateMap<PostDto, Post>()
                 .ForMember(dest => dest.Media, src => src
                 .MapFrom(s => s.File.FileName));
@@ -46,6 +46,7 @@ namespace Service.Services
 
             // Map בין Comment ל-CommentDto
             CreateMap<Comment, CommentDto>().ReverseMap();
+            
 
             // Map בין Challenge ל-ChallengeDto
             CreateMap<Challenge, ChallengeDto>().ReverseMap();
@@ -60,6 +61,10 @@ namespace Service.Services
             CreateMap<ChatMessage, ChatMessageDto>().ReverseMap();
             //map בין ChallengeParticipant ל ChallengeParticipantDto
             CreateMap<ChallengeParticipant, ChallengeParticipantDto>().ReverseMap();    
+
+            // Map בין ChallengeParticipant ל-ChallengeParticipantDto
+
+            CreateMap<ChallengeParticipant, ChallengeParticipantDto>().ReverseMap();
 
 
 

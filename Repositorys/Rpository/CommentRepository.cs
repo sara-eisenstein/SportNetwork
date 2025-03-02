@@ -51,7 +51,10 @@ namespace Repositorys.Rpository
             {
                 existingComment.Content = item.Content;
                 existingComment.CreatedDate = item.CreatedDate;
-                context.comments.Update(existingComment);      
+
+                context.comments.Update(existingComment);
+
+
                 context.Save();
             }
             return existingComment;

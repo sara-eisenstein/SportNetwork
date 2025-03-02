@@ -44,7 +44,8 @@ namespace Repositorys.Rpository
             return context.chatMessages.ToList();
         }
 
-        public ChatMessage Update(ChatMessage item, int id)
+        public ChatMessage Update(ChatMessage item,int id )
+
         {
             var existingMessage = Get(id);
             if (existingMessage != null)
@@ -53,7 +54,9 @@ namespace Repositorys.Rpository
                 existingMessage.RecipientId = item.RecipientId;
                 existingMessage.MessageContent = item.MessageContent;
                 existingMessage.SentDate = item.SentDate;
+
                 context.chatMessages.Update(existingMessage);
+
                 context.Save();
             }
             return existingMessage;
