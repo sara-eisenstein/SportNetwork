@@ -13,8 +13,8 @@ namespace Common.Dto
         public int PostId { get; set; }
         public int UserId { get; set; }
         public string Content { get; set; }
-        
-        public int Likes { get; set; }
+
+        public List<int> Likes { get; set; } = new List<int>();
         public DateTime CreatedDate { get; set; }
 
         public Byte[]? Media { get; set; }

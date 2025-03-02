@@ -12,10 +12,15 @@ namespace SportNetwork.Controllers
     {
         private readonly IService<PostDto> _postDervice;
         public static string _Directory = Environment.CurrentDirectory + "/media/";
+        private readonly IPostService _ExtentionPostService;
 
-        public PostController(IService<PostDto> postDervice)
+        
+        
+        public PostController(IService<PostDto> postDervice, IPostService ExtentionPostService)
         {
             _postDervice = postDervice;
+            _ExtentionPostService = ExtentionPostService;
+
         }
 
         // GET: api/<PostController>
@@ -58,5 +63,62 @@ namespace SportNetwork.Controllers
         {
             _postDervice.Delete(id);
         }
+<<<<<<< Updated upstream
+=======
+
+        [HttpGet("/getPostImage/{id}")]
+        public IActionResult GetImage(int id)
+        {
+            PostDto p = _postDervice.Get(id);
+            return File(p.Media, "image/jpg");
+        }
+
+
+        // הוספת לייק
+        [HttpPost("{postId}/like/{userId}")]
+        public IActionResult LikePost(int postId, int userId)
+        {
+            try
+            {
+                _ExtentionPostService.AddLike(userId, postId);
+                return Ok("Like added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // הסרת לייק
+        [HttpDelete("{postId}/like/{userId}")]
+        public IActionResult UnlikePost(int postId, int userId)
+        {
+            try
+            {
+                _ExtentionPostService.RemoveLike(userId, postId);
+                return Ok("Like removed successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // קבלת כמות לייקים
+        [HttpGet("{postId}/likes")]
+        public IActionResult GetLikeCount(int postId)
+        {
+            try
+            {
+                int count = _ExtentionPostService.GetLikeCount(postId);
+                return Ok(count);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+>>>>>>> Stashed changes
     }
 }

@@ -40,6 +40,8 @@ namespace Service.Services
             return mapper.Map<PostDto>(repository.Get(id));
         }
 
+       
+
         public List<PostDto> GetAll()
         {
             return mapper.Map<List<PostDto>>(repository.GetAll());
@@ -50,5 +52,7 @@ namespace Service.Services
             var entity = mapper.Map<Post>(item);
             return mapper.Map<PostDto>(repository.Update(entity));
         }
+
+       
     }
 }

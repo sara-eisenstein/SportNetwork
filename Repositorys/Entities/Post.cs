@@ -17,8 +17,9 @@ namespace Repositorys.Entities
         public virtual User User { get; set; }
 
         public string Content { get; set; }
-        
-        public int Likes { get; set; }
+
+        // רשימה של מזהי משתמשים שנתנו לייק
+        public List<int> Likes { get; set; } = new List<int>();
         public DateTime CreatedDate { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

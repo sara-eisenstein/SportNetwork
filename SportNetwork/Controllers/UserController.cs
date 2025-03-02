@@ -1,6 +1,9 @@
 ﻿using Common.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
+using System.Diagnostics.Eventing.Reader;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -43,11 +46,31 @@ namespace SportNetwork.Controllers
                 _userService.Add(value);
         }
 
+        //TODO לבדוק שהצורה הזאת תקינה ולא שצריך לעשות את הבדיקה של ההרשאה בפונקציה חיצונית או משהו
+
+
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
+<<<<<<< Updated upstream
         public void Put(int id, [FromBody] UserDto value)
         {
             _userService.Update(value);
+=======
+        [Authorize]
+        public void Put(int id, [FromForm] UserDto value)
+        {
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != id.ToString())
+
+                throw new Exception("oops!"); // לא אתה? נחסום את הגישה
+
+            else
+            {
+                _userService.Update(value, id);
+
+            }
+
+
+>>>>>>> Stashed changes
         }
 
         // DELETE api/<UserController>/5
