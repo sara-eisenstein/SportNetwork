@@ -22,14 +22,9 @@ namespace Repositorys.Entities
         public DateTime CreatedDate { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
-<<<<<<< HEAD
+
         public string? Media { get; set; }
         
-=======
-
-        public string? Media { get; set; }
-
->>>>>>> origin/correct_migrations
 
     }
 }
