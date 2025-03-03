@@ -28,13 +28,13 @@ namespace SportNetwork.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] ChatMessageDto value)
+        public void Post([FromForm] ChatMessageDto value)
         {
             _chatMessageService.Add(value);
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] ChatMessageDto value)
+        public void Put(int id, [FromForm] ChatMessageDto value)
         {
             _chatMessageService.Update(value);
         }

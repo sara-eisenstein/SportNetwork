@@ -39,7 +39,7 @@ namespace SportNetwork.Controllers
 
         // POST api/<PostController>
         [HttpPost]
-        public void Post([FromBody] PostDto value)
+        public void Post([FromForm] PostDto value)
         {
             var filePath = Path.Combine
                 (Environment.CurrentDirectory, "media/", value.File.FileName);
@@ -52,7 +52,7 @@ namespace SportNetwork.Controllers
 
         // PUT api/<PostController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] PostDto value)
+        public void Put(int id, [FromForm] PostDto value)
         {
             _postDervice.Update(value);
         }
@@ -63,8 +63,6 @@ namespace SportNetwork.Controllers
         {
             _postDervice.Delete(id);
         }
-<<<<<<< Updated upstream
-=======
 
         [HttpGet("/getPostImage/{id}")]
         public IActionResult GetImage(int id)
@@ -119,6 +117,5 @@ namespace SportNetwork.Controllers
             }
         }
 
->>>>>>> Stashed changes
     }
 }

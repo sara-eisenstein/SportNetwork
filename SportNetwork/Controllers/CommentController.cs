@@ -27,14 +27,14 @@ namespace SportNetwork.Controllers
 
         // POST api/<CommentController>
         [HttpPost]
-        public void Post([FromBody] CommentDto value)
+        public void Post([FromForm] CommentDto value)
         {
             _commentservice.Add(value);
         }
 
         // PUT api/<CommentController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] CommentDto value)
+        public void Put(int id, [FromForm] CommentDto value)
         {
             _commentservice.Update(value);
         }

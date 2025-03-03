@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mock;
 
@@ -11,9 +12,10 @@ using Mock;
 namespace Mock.Migrations
 {
     [DbContext(typeof(DataBase))]
-    partial class DataBaseModelSnapshot : ModelSnapshot
+    [Migration("20250302161150_UpdateDatabaseSchema")]
+    partial class UpdateDatabaseSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,6 +210,7 @@ namespace Mock.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Likes")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Media")

@@ -28,13 +28,13 @@ namespace SportNetwork.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] ChallengeDto value)
+        public void Post([FromForm] ChallengeDto value)
         {
             _challengeService.Add(value);
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] ChallengeDto value)
+        public void Put(int id, [FromForm] ChallengeDto value)
         {
             _challengeService.Update(value);
         }

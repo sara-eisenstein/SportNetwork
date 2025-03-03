@@ -23,14 +23,19 @@ namespace Repositorys.Rpository
             if (post == null)
                 throw new Exception("Post not found.");
 
-            if (post.Likes.Contains(userId)) //מונע אפשרות שמשתמש יתן 2 לייקים לאותו פוסט
+            var likes = post.Likes.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+
+            if (likes.Contains(userId))
                 throw new Exception("User has already liked this post.");
 
-            post.Likes.Add(userId);
+            likes.Add(userId);
+            post.Likes = string.Join(",", likes);
+
             context.Save();
 
             return post;
         }
+
 
         public Post RemoveLike(int userId, int postId)
         {
@@ -39,14 +44,19 @@ namespace Repositorys.Rpository
             if (post == null)
                 throw new Exception("Post not found.");
 
-            if (!post.Likes.Contains(userId))
+            var likes = post.Likes.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+
+            if (!likes.Contains(userId))
                 throw new Exception("User has not liked this post.");
 
-            post.Likes.Remove(userId);
+            likes.Remove(userId);
+            post.Likes = string.Join(",", likes);
+
             context.Save();
 
-            return post;    
+            return post;
         }
+
 
         public int GetLikeCount(int postId)
         {
@@ -55,9 +65,8 @@ namespace Repositorys.Rpository
             if (post == null)
                 throw new Exception("Post not found.");
 
-            return post.Likes.Count;
+            return post.Likes.Split(',', StringSplitOptions.RemoveEmptyEntries).Length;
         }
-
 
 
 
