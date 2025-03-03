@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using Mock;
 using Repositorys.Interface;
+using Repositorys.Rpository;
+using Service.Interfaces;
 using Service.Services;
 using System.Text;
 
@@ -16,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<IContext, DataBase>();
 builder.Services.AddServiceExtension();
+
 
 
 

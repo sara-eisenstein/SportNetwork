@@ -29,7 +29,9 @@ namespace Service.Services
             services.AddScoped<IService<ChatMessageDto>, ChatMessageService>();
             services.AddScoped<IService<ChallengeParticipantDto>, ChallengeParticipantService>();
             services.AddScoped<IService<ChallengeDto>, ChallengeService>();
+            services.AddScoped<IChallengeService, ExtensionChallengeService>();
             services.AddScoped<IService<AchievementDto>, AchievementService>();
+
             services.AddAutoMapper(typeof(MyMapper));
             return services;
         }
