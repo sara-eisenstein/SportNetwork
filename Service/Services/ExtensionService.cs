@@ -27,11 +27,12 @@ namespace Service.Services
             services.AddScoped<IService<CommentDto>, CommentService>();
             services.AddScoped<IcommentService, ExtensionCommentService>();
             services.AddScoped<IService<ChatMessageDto>, ChatMessageService>();
+            services.AddScoped<IChatMessageService, ExtensionChatMessageService>();
             services.AddScoped<IService<ChallengeParticipantDto>, ChallengeParticipantService>();
             services.AddScoped<IService<ChallengeDto>, ChallengeService>();
             services.AddScoped<IChallengeService, ExtensionChallengeService>();
             services.AddScoped<IService<AchievementDto>, AchievementService>();
-
+            services.AddScoped<ILoginService, LoginService>();
             services.AddAutoMapper(typeof(MyMapper));
             return services;
         }

@@ -9,10 +9,12 @@ namespace SportNetwork.Controllers
     public class ChatMessageController : ControllerBase
     {
         private readonly IService<ChatMessageDto> _chatMessageService;
+        private readonly IChatMessageService _chatMessageService2;
 
-        public ChatMessageController(IService<ChatMessageDto> service)
+        public ChatMessageController(IService<ChatMessageDto> service, IChatMessageService chatMessageService2)
         {
             _chatMessageService = service;
+            _chatMessageService2 = chatMessageService2;
         }
 
         [HttpGet]
@@ -25,6 +27,11 @@ namespace SportNetwork.Controllers
         public ChatMessageDto Get(int id)
         {
             return _chatMessageService.Get(id);
+        }
+        [HttpGet("/getMessageById{id}")]
+        public List<ChatMessageDto> GetChatMessage(int id)
+        {
+            return _chatMessageService2.GetChatMassages(id);
         }
 
         [HttpPost]
