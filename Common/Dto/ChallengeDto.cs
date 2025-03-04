@@ -8,7 +8,7 @@ namespace Common.Dto
 {
     public class ChallengeDto
     {
-        public int ChallengeId { get; set; }
+        public int? ChallengeId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public FitnessLevel Level { get; set; }

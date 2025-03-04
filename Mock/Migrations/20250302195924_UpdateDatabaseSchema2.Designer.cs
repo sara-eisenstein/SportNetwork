@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mock;
 
@@ -11,9 +12,10 @@ using Mock;
 namespace Mock.Migrations
 {
     [DbContext(typeof(DataBase))]
-    partial class DataBaseModelSnapshot : ModelSnapshot
+    [Migration("20250302195924_UpdateDatabaseSchema2")]
+    partial class UpdateDatabaseSchema2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,10 +120,8 @@ namespace Mock.Migrations
 
                     b.Property<string>("MessageContent")
                         .IsRequired()
-
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
-
 
                     b.Property<int>("RecipientId")
                         .HasColumnType("int");
@@ -137,7 +137,6 @@ namespace Mock.Migrations
                     b.HasIndex("RecipientId");
 
                     b.HasIndex("SenderId");
-
 
                     b.ToTable("chatMessages");
                 });
@@ -268,9 +267,6 @@ namespace Mock.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                   // b.HasKey("UserId");
-
-                   // b.ToTable("users");
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 

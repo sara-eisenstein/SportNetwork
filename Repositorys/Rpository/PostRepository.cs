@@ -39,6 +39,9 @@ namespace Repositorys.Rpository
             return context.posts.FirstOrDefault(x => x.PostId == id);
         }
 
+        
+
+        
         public List<Post> GetAll()
         {
             return context.posts.ToList();
@@ -57,5 +60,7 @@ namespace Repositorys.Rpository
             }
             return existingPost;
         }
+
+       
     }
 }

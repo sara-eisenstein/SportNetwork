@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Common.Dto
 {
@@ -16,11 +19,18 @@ namespace Common.Dto
     }
     public class UserDto
     {
-        public int UserId { get; set; }
+        
+        public int? UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string Email { get; set; }
         public FitnessLevel Level { get; set; }
+
+        [Required(ErrorMessage = "Password is required.")]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
         public string PasswordHash { get; set; }
         public string Goals { get; set; }
         public string Bio { get; set; }
@@ -30,3 +40,7 @@ namespace Common.Dto
         public IFormFile? File { get; set; }
     }
 }
+
+
+
+

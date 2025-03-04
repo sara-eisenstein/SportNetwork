@@ -14,7 +14,6 @@ namespace Service.Services
 {
 
 
-    //TODO להוסיף מה שצריך בשביל תמונות
     public class MyMapper : Profile
     {
         public MyMapper()
@@ -22,7 +21,8 @@ namespace Service.Services
             // Map בין User ל-UserDto
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.ProfilePicture, src => src
-                .MapFrom(s => ConvertToByte(Environment.CurrentDirectory + "/media/" + s.ProfilePicture)));
+                .MapFrom(s => ConvertToByte(Environment.CurrentDirectory 
+                + "/media/" + s.ProfilePicture)));
 
             CreateMap<UserDto, User>()
                 .ForMember(dest => dest.ProfilePicture, src => src
@@ -61,10 +61,26 @@ namespace Service.Services
 
 
         }
-        public byte[] ConvertToByte(string img)
+         public byte[] ConvertToByte(string img)
         {
-            var res = System.IO.File.ReadAllBytes(img);
-            return res;
+            try
+            {
+                if (File.Exists(img))
+                {
+                    return System.IO.File.ReadAllBytes(img);
+                }
+                else
+                {
+                    // החזרת מערך ריק או תמונה ברירת מחדל במקרה שהקובץ לא קיים
+                    Console.WriteLine($"קובץ לא נמצא: {img}");
+                    return new byte[0]; // או החזרת תמונת ברירת מחדל
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"שגיאה בעת המרת קובץ לבייטים: {ex.Message}");
+                return new byte[0]; // או החזרת תמונת ברירת מחדל
+            }
         }
     }
 

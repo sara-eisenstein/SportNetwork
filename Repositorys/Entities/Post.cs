@@ -10,6 +10,7 @@ namespace Repositorys.Entities
 {
     public class Post
     {
+        
         public int PostId { get; set; }
 
         [ForeignKey("User")]
@@ -17,8 +18,9 @@ namespace Repositorys.Entities
         public virtual User User { get; set; }
 
         public string Content { get; set; }
-        
-        public int Likes { get; set; }
+
+        // רשימה של מזהי משתמשים שנתנו לייק
+        public string? Likes { get; set; } = "";
         public DateTime CreatedDate { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

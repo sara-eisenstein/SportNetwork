@@ -23,6 +23,9 @@ namespace Repositorys.Rpository
             services.AddScoped<IRepository<ChallengeParticipant>, ChallengeParticipantRepository>();
             services.AddScoped<IRepository<Challenge>, ChallengeRepository>();
             services.AddScoped<IRepository<Achievement>, AchievementRepository>();
+            services.AddScoped<IPostRepository, ExtentionPostRepository>();
+            services.AddScoped<IFollowerRepository, ExtensionFollowerRepository>();
+
 
 
             return services;

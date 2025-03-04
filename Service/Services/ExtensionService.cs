@@ -23,7 +23,9 @@ namespace Service.Services
             services.AddRepository();
             services.AddScoped<IService<UserDto>, UserService>();
             services.AddScoped<IService<PostDto>, PostService>();
+            services.AddScoped<IPostService, ExtentionPostService>();
             services.AddScoped<IService<FollowerDto>, FollowerService>();
+            services.AddScoped<IFollowerService, ExtentionFollowerService>();
             services.AddScoped<IService<CommentDto>, CommentService>();
             services.AddScoped<IService<ChatMessageDto>, ChatMessageService>();
             services.AddScoped<IService<ChallengeParticipantDto>, ChallengeParticipantService>();

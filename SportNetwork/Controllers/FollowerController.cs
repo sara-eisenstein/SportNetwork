@@ -10,10 +10,14 @@ namespace SportNetwork.Controllers
     [ApiController]
     public class FollowerController : ControllerBase
     {
-        private readonly IService<FollowerDto> _followerService;    
-        public FollowerController(IService<FollowerDto> followerService)
+        private readonly IService<FollowerDto> _followerService;
+        private readonly IFollowerService _extensionFollowerService;
+
+
+        public FollowerController(IService<FollowerDto> followerService, IFollowerService extensionFollowerService)
         {
             _followerService = followerService;
+            _extensionFollowerService = extensionFollowerService;
         }
     
         // GET: api/<FollowerController>
@@ -50,5 +54,26 @@ namespace SportNetwork.Controllers
         {
             _followerService.Delete(id);    
         }
+
+        [HttpGet("user/{userId}/followers")]
+        public IActionResult GetFollowersByUserId(int userId)
+        {
+            if (userId <= 0)
+            {
+                return BadRequest(new { message = "Invalid user ID." });
+            }
+
+            var followers = _extensionFollowerService.GetFollowersByUserId(userId);
+            if (followers == null || !followers.Any())
+            {
+                return NotFound(new { message = "No followers found for this user." });
+            }
+
+            
+
+            return Ok(followers);
+        }
+
+
     }
 }
