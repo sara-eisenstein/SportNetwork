@@ -39,23 +39,35 @@ namespace Repositorys.Rpository
             return _context.users.ToList();  
         }
 
-        public User Update(User entity)
+        public User Update(User entity,int id)
         {
-            User user = Get(entity.UserId);
-            user.ProfilePicture = entity.ProfilePicture;
+            // מציאת הישות הקיימת ב-DB על פי ID
+            User user = Get(id);
+
+            if (user == null)
+            {
+                throw new Exception($"User with ID {entity.UserId} not found.");
+            }
+
+            // עדכון השדות הרצויים
+
             user.Email = entity.Email;
-            user.FirstName = entity.FirstName;  
-            user.LastName = entity.LastName;    
+            user.ProfilePicture = entity.ProfilePicture;
+            user.FirstName = entity.FirstName;
+            user.LastName = entity.LastName;
             user.DateJoined = entity.DateJoined;
-            user.Bio=entity.Bio; 
+            user.Bio = entity.Bio;
+            user.Status = entity.Status;
             user.Level = entity.Level;
-            user.Level = entity.Level;  
-            _context.users.Add(user);
+
+            // שמירת השינויים ל-DB
+
+            _context.users.Update(user);
             _context.Save();
+
             return user;
-
-
         }
+
         public void Save()
         {
             

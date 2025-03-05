@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Repositorys.Entities
 {
     public class ChatMessage
@@ -16,11 +17,13 @@ namespace Repositorys.Entities
 
         [Required] // Sender ID cannot be null
         public int SenderId { get; set; } // Foreign key to User
+
         [ForeignKey("SenderId")]
         public virtual User Sender { get; set; }
 
         [Required] // Recipient ID cannot be null
         public int RecipientId { get; set; } // Foreign key to User
+
 
         [ForeignKey("RecipientId")]
         public virtual User Recipient { get; set; }

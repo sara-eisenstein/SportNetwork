@@ -26,8 +26,9 @@ namespace Repositorys.Entities
         public string Goals { get; set; }
         public string Bio { get; set; }
         public DateTime DateJoined { get; set; }
-
+        public bool Status { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
+
 
         // משתמשים שעוקבים אחרי המשתמש הנוכחי
         [InverseProperty("User")]

@@ -44,10 +44,10 @@ namespace Service.Services
             return mapper.Map<List<FollowerDto>>(repository.GetAll());
         }
 
-        public FollowerDto Update(FollowerDto item)
+        public FollowerDto Update(FollowerDto item, int id)
         {
             var entity = mapper.Map<Follower>(item);
-            return mapper.Map<FollowerDto>(repository.Update(entity));
+            return mapper.Map<FollowerDto>(repository.Update(entity, id));
         }
     }
 }

@@ -18,8 +18,7 @@ namespace Common.Dto
         Professional  // מקצוען - מתאים לספורטאים מקצועיים או מדריכי כושר
     }
     public class UserDto
-    {
-        
+    { 
         public int? UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -34,7 +33,7 @@ namespace Common.Dto
         public string PasswordHash { get; set; }
         public string Goals { get; set; }
         public string Bio { get; set; }
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
         public DateTime DateJoined { get; set; }
         public byte[]? ProfilePicture { get; set; }
         public IFormFile? File { get; set; }

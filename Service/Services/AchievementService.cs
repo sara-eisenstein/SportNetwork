@@ -40,10 +40,11 @@ namespace Service.Services
             repository.Delete(id);
         }
 
-        public AchievementDto Update(AchievementDto item)
+        public AchievementDto Update(AchievementDto item,int id)
         {
             var entity = mapper.Map<Achievement>(item);
-            return mapper.Map<AchievementDto>(repository.Update(entity));
+            return mapper.Map<AchievementDto>(repository.Update(entity,id));
+
         }
 
         public AchievementDto Add(AchievementDto item)

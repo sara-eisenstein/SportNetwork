@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace SportNetwork.Controllers
 {
     [Route("api/[controller]")]
@@ -11,46 +9,82 @@ namespace SportNetwork.Controllers
     public class AchievementController : ControllerBase
     {
         private readonly IService<AchievementDto> _achievementService;
+
         public AchievementController(IService<AchievementDto> service)
         {
-            this._achievementService = service;
-
-        }
-
-
-        // GET: api/<AchievementController>
-        [HttpGet]
-        public List<AchievementDto> Get()
-        {
-            return _achievementService.GetAll();
-        }
-
-        // GET api/<AchievementController>/5
-        [HttpGet("{id}")]
-        public AchievementDto Get(int id)
-        {
-            return _achievementService.Get(id);
+            _achievementService = service;
         }
 
         // POST api/<AchievementController>
         [HttpPost]
-        public void Post([FromForm] AchievementDto value)
+        public IActionResult Post([FromForm] AchievementDto value)
         {
-            _achievementService.Add(value);
+            try
+            {
+                if (value == null)
+                {
+                    return BadRequest("Invalid achievement data.");
+                }
+
+                _achievementService.Add(value);
+                return Ok("Achievement added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // PUT api/<AchievementController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromForm] AchievementDto value)
+        public IActionResult Put(int id, [FromForm] AchievementDto value)
         {
-            _achievementService.Update(value);
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid achievement ID.");
+                }
+
+                var existingAchievement = _achievementService.Get(id);
+                if (existingAchievement == null)
+                {
+                    return NotFound($"Achievement with ID {id} not found.");
+                }
+
+                _achievementService.Update(value, id);
+                return Ok("Achievement updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // DELETE api/<AchievementController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _achievementService.Delete(id);
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid achievement ID.");
+                }
+
+                var existingAchievement = _achievementService.Get(id);
+                if (existingAchievement == null)
+                {
+                    return NotFound($"Achievement with ID {id} not found.");
+                }
+
+                _achievementService.Delete(id);
+                return Ok("Achievement deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
 
@@ -9,40 +10,98 @@ namespace SportNetwork.Controllers
     public class ChallengeController : ControllerBase
     {
         private readonly IService<ChallengeDto> _challengeService;
+        private readonly IChallengeService _challengeService2;
 
-        public ChallengeController(IService<ChallengeDto> service)
+        public ChallengeController(IService<ChallengeDto> service, IChallengeService challengeService2)
         {
             _challengeService = service;
+            _challengeService2 = challengeService2;
         }
 
         [HttpGet]
-        public List<ChallengeDto> Get()
+        public IActionResult Get()
         {
-            return _challengeService.GetAll();
+            try
+            {
+                var challenges = _challengeService.GetAll();
+                if (challenges == null || !challenges.Any())
+                {
+                    return NotFound("No challenges found.");
+                }
+                return Ok(challenges);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
-        public ChallengeDto Get(int id)
+        public IActionResult Get(int id)
         {
-            return _challengeService.Get(id);
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid challenge ID.");
+                }
+
+                var challenge = _challengeService.Get(id);
+                if (challenge == null)
+                {
+                    return NotFound($"Challenge with ID {id} not found.");
+                }
+
+                return Ok(challenge);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
+        [HttpGet("/challengeToUser/")]
+        public IActionResult GetChallengeToUser(int userId)
+        {
+            try
+            {
+                if (userId <= 0)
+                {
+                    return BadRequest("Invalid user ID.");
+                }
+
+                var challenges = _challengeService2.GetChallengesByUserId(userId);
+                if (challenges == null || !challenges.Any())
+                {
+                    return NotFound($"No challenges found for user ID {userId}.");
+                }
+
+                return Ok(challenges);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [Authorize]
         [HttpPost]
-        public void Post([FromForm] ChallengeDto value)
+        public IActionResult Post([FromForm] ChallengeDto value)
         {
-            _challengeService.Add(value);
-        }
+            try
+            {
+                if (value == null)
+                {
+                    return BadRequest("Invalid challenge data.");
+                }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromForm] ChallengeDto value)
-        {
-            _challengeService.Update(value);
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _challengeService.Delete(id);
+                _challengeService.Add(value);
+                return Ok("Challenge added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

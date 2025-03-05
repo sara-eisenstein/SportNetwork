@@ -44,13 +44,17 @@ namespace Repositorys.Rpository
             return context.comments.ToList();
         }
 
-        public Comment Update(Comment item)
+        public Comment Update(Comment item, int id)
         {
-            var existingComment = Get(item.CommentId);
+            var existingComment = Get(id);
             if (existingComment != null)
             {
                 existingComment.Content = item.Content;
                 existingComment.CreatedDate = item.CreatedDate;
+
+                context.comments.Update(existingComment);
+
+
                 context.Save();
             }
             return existingComment;

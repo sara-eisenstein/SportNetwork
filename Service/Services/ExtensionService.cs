@@ -27,10 +27,13 @@ namespace Service.Services
             services.AddScoped<IService<FollowerDto>, FollowerService>();
             services.AddScoped<IFollowerService, ExtentionFollowerService>();
             services.AddScoped<IService<CommentDto>, CommentService>();
+            services.AddScoped<IcommentService, ExtensionCommentService>();
             services.AddScoped<IService<ChatMessageDto>, ChatMessageService>();
             services.AddScoped<IService<ChallengeParticipantDto>, ChallengeParticipantService>();
             services.AddScoped<IService<ChallengeDto>, ChallengeService>();
+            services.AddScoped<IChallengeService, ExtensionChallengeService>();
             services.AddScoped<IService<AchievementDto>, AchievementService>();
+
             services.AddAutoMapper(typeof(MyMapper));
             return services;
         }

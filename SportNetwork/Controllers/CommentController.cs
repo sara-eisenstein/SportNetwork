@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace SportNetwork.Controllers
 {
     [Route("api/[controller]")]
@@ -11,39 +9,109 @@ namespace SportNetwork.Controllers
     public class CommentController : ControllerBase
     {
         private readonly IService<CommentDto> _commentservice;
-        // GET: api/<CommentController>
-        [HttpGet]
-        public List<CommentDto> Get()
+        private readonly IcommentService _commentservice2;
+
+        public CommentController(IService<CommentDto> commentservice, IcommentService commentservice2)
         {
-            return _commentservice.GetAll();
+            _commentservice = commentservice;
+            _commentservice2 = commentservice2;
         }
 
         // GET api/<CommentController>/5
-        [HttpGet("{id}")]
-        public CommentDto Get(int id)
+        [HttpGet("/getcommentByPostId/")]
+        public IActionResult GetCommentByPostId(int postId)
         {
-            return _commentservice.Get(id);
+            try
+            {
+                if (postId <= 0)
+                {
+                    return BadRequest("Invalid post ID.");
+                }
+
+                var comments = _commentservice2.GetCommentByPostId(postId);
+                if (comments == null || !comments.Any())
+                {
+                    return NotFound($"No comments found for post ID {postId}.");
+                }
+
+                return Ok(comments);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // POST api/<CommentController>
         [HttpPost]
-        public void Post([FromForm] CommentDto value)
+        public IActionResult Post([FromForm] CommentDto value)
         {
-            _commentservice.Add(value);
+            try
+            {
+                if (value == null)
+                {
+                    return BadRequest("Invalid comment data.");
+                }
+
+                _commentservice.Add(value);
+                return Ok("Comment added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // PUT api/<CommentController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromForm] CommentDto value)
+        public IActionResult Put(int id, [FromForm] CommentDto value)
         {
-            _commentservice.Update(value);
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid comment ID.");
+                }
+
+                var existingComment = _commentservice.Get(id);
+                if (existingComment == null)
+                {
+                    return NotFound($"Comment with ID {id} not found.");
+                }
+
+                _commentservice.Update(value, id);
+                return Ok("Comment updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // DELETE api/<CommentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _commentservice.Delete(id); 
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid comment ID.");
+                }
+
+                var existingComment = _commentservice.Get(id);
+                if (existingComment == null)
+                {
+                    return NotFound($"Comment with ID {id} not found.");
+                }
+
+                _commentservice.Delete(id);
+                return Ok("Comment deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

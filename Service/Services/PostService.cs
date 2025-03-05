@@ -47,10 +47,10 @@ namespace Service.Services
             return mapper.Map<List<PostDto>>(repository.GetAll());
         }
 
-        public PostDto Update(PostDto item)
+        public PostDto Update(PostDto item, int id)
         {
             var entity = mapper.Map<Post>(item);
-            return mapper.Map<PostDto>(repository.Update(entity));
+            return mapper.Map<PostDto>(repository.Update(entity, id));
         }
 
        

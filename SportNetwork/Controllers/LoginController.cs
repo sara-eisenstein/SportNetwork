@@ -6,8 +6,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace SportNetwork.Controllers
 {
     [Route("api/[controller]")]
@@ -16,66 +14,138 @@ namespace SportNetwork.Controllers
     {
         private readonly IService<UserDto> _userService;
         private readonly IConfiguration _configuration;
+
         public LoginController(IService<UserDto> userService, IConfiguration configuration)
         {
             _userService = userService;
             _configuration = configuration;
         }
+
         private string Generate(UserDto user)
         {
-            var secretKay = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Kay"]));
-            var corditionl=new SigningCredentials(secretKay,SecurityAlgorithms.HmacSha256);
-            var claims = new[] {
-                new Claim(ClaimTypes.Name,user.FirstName+user.LastName),
-                new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString()),
-                new Claim(ClaimTypes.Email,user.Email),
-                
-            };
-            var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"], _configuration["Jwt:Audience"],
-                claims,expires:DateTime.Now.AddDays(1),signingCredentials: corditionl);
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            try
+            {
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Kay"]));
+                var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name, user.FirstName + user.LastName),
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                };
+                var token = new JwtSecurityToken(
+                    _configuration["Jwt:Issuer"],
+                    _configuration["Jwt:Audience"],
+                    claims,
+                    expires: DateTime.Now.AddDays(1),
+                    signingCredentials: credentials);
+
+                return new JwtSecurityTokenHandler().WriteToken(token);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error generating JWT token: {ex.Message}");
+            }
         }
+
         private UserDto Authenticate(string email, string password)
         {
-            return _userService.GetAll().FirstOrDefault(x => x.Email == email && x.PasswordHash == password);
+            try
+            {
+                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                {
+                    throw new ArgumentException("Email and password must be provided.");
+                }
+
+                var user = _userService.GetAll().FirstOrDefault(x => x.Email == email && x.PasswordHash == password);
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error during authentication: {ex.Message}");
+            }
         }
+
         // GET: api/<LoginController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(new string[] { "value1", "value2" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // GET api/<LoginController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                return Ok("value");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // POST api/<LoginController>
         [HttpPost]
-        public IActionResult Post( [FromQuery]string email, [FromQuery]string password)
+        public IActionResult Post([FromQuery] string email, [FromQuery] string password)
         {
-            var user=Authenticate(email,password);
-            if (user != null) {
-                var token = Generate(user);
-                return Ok(token);   
+            try
+            {
+                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                {
+                    return BadRequest("Email and password are required.");
+                }
+
+                var user = Authenticate(email, password);
+                if (user != null)
+                {
+                    var token = Generate(user);
+                    return Ok(token);
+                }
+
+                return Unauthorized("User does not exist or incorrect credentials.");
             }
-            return BadRequest("user do not exist");
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // PUT api/<LoginController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] string value)
         {
+            try
+            {
+                return Ok($"Updated value: {value}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // DELETE api/<LoginController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                return Ok($"Deleted item with ID {id}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

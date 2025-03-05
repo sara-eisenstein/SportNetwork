@@ -15,34 +15,73 @@ namespace SportNetwork.Controllers
             _chatMessageService = service;
         }
 
-        [HttpGet]
-        public List<ChatMessageDto> Get()
-        {
-            return _chatMessageService.GetAll();
-        }
-
-        [HttpGet("{id}")]
-        public ChatMessageDto Get(int id)
-        {
-            return _chatMessageService.Get(id);
-        }
-
         [HttpPost]
-        public void Post([FromForm] ChatMessageDto value)
+        public IActionResult Post([FromForm] ChatMessageDto value)
         {
-            _chatMessageService.Add(value);
+            try
+            {
+                if (value == null)
+                {
+                    return BadRequest("Invalid chat message data.");
+                }
+
+                _chatMessageService.Add(value);
+                return Ok("Chat message added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromForm] ChatMessageDto value)
+        public IActionResult Put(int id, [FromForm] ChatMessageDto value)
         {
-            _chatMessageService.Update(value);
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid chat message ID.");
+                }
+
+                var existingMessage = _chatMessageService.Get(id);
+                if (existingMessage == null)
+                {
+                    return NotFound($"Chat message with ID {id} not found.");
+                }
+
+                _chatMessageService.Update(value, id);
+                return Ok("Chat message updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _chatMessageService.Delete(id);
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid chat message ID.");
+                }
+
+                var existingMessage = _chatMessageService.Get(id);
+                if (existingMessage == null)
+                {
+                    return NotFound($"Chat message with ID {id} not found.");
+                }
+
+                _chatMessageService.Delete(id);
+                return Ok("Chat message deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

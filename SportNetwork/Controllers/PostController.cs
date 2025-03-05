@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Common.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Repositorys.Rpository;
 using Service.Interfaces;
 using Service.Services;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SportNetwork.Controllers
 {
@@ -17,66 +17,144 @@ namespace SportNetwork.Controllers
         public static string _Directory = Environment.CurrentDirectory + "/media/";
         private readonly IPostService _ExtentionPostService;
 
-        
-        
         public PostController(IService<PostDto> postDervice, IPostService ExtentionPostService)
         {
             _postService = postDervice;
             _ExtentionPostService = ExtentionPostService;
-
         }
 
         // GET: api/<PostController>
         [HttpGet]
-        public List<PostDto> Get()
+        public IActionResult Get()
         {
-            return _postService.GetAll();
+            try
+            {
+                var posts = _postService.GetAll();
+                if (posts == null || !posts.Any())
+                {
+                    return NotFound("No posts found.");
+                }
+                return Ok(posts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // GET api/<PostController>/5
         [HttpGet("{id}")]
-        public PostDto Get(int id)
+        public IActionResult Get(int id)
         {
-            return _postService.Get(id);
+            try
+            {
+                var post = _postService.Get(id);
+                if (post == null)
+                {
+                    return NotFound($"Post with ID {id} not found.");
+                }
+                return Ok(post);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // POST api/<PostController>
         [HttpPost]
-        public void Post([FromForm] PostDto value)
+        public IActionResult Post([FromForm] PostDto value)
         {
-            var filePath = Path.Combine
-                (Environment.CurrentDirectory, "media/", value.File.FileName);
-            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            try
             {
-                value.File.CopyTo(fs);
-            }
-            _postService.Add(value);
+                if (value == null || value.File == null)
+                {
+                    return BadRequest("Invalid post data or file is missing.");
+                }
 
+                var filePath = Path.Combine(Environment.CurrentDirectory, "media/", value.File.FileName);
+                using (FileStream fs = new FileStream(filePath, FileMode.Create))
+                {
+                    value.File.CopyTo(fs);
+                }
+
+                _postService.Add(value);
+                return Ok("Post added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // PUT api/<PostController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromForm] PostDto value)
+        public IActionResult Put(int id, [FromForm] PostDto value)
         {
-            _postService.Update(value);
+            try
+            {
+                if (value == null)
+                {
+                    return BadRequest("Invalid post data.");
+                }
+
+                var existingPost = _postService.Get(id);
+                if (existingPost == null)
+                {
+                    return NotFound($"Post with ID {id} not found.");
+                }
+
+                _postService.Update(value, id);
+                return Ok("Post updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // DELETE api/<PostController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _postService.Delete(id);
+            try
+            {
+                var existingPost = _postService.Get(id);
+                if (existingPost == null)
+                {
+                    return NotFound($"Post with ID {id} not found.");
+                }
+
+                _postService.Delete(id);
+                return Ok("Post deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpGet("/getPostImage/{id}")]
         public IActionResult GetImage(int id)
         {
-            PostDto p = _postService.Get(id);
-            return File(p.Media, "image/jpg");
+            try
+            {
+                var post = _postService.Get(id);
+                if (post == null )
+                {
+                    return NotFound("Post not found.");
+                }
+
+                return File(post.Media, "image/jpg");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
-
         // הוספת לייק
+        [Authorize]
         [HttpPost("{postId}/like/{userId}")]
         public IActionResult LikePost(int postId, int userId)
         {
@@ -121,24 +199,30 @@ namespace SportNetwork.Controllers
             }
         }
 
-        //קבלת פוסטים לפי ID של משתמש
+        // קבלת פוסטים לפי ID של משתמש
+        [Authorize]
         [HttpGet("user/{userId}")]
-        public IActionResult GetByUserId(int id)
+        public IActionResult GetByUserId(int userId)
         {
-            if (id <= 0)
+            try
             {
-                return BadRequest(new { message = "Invalid user ID." });
-            }
+                if (userId <= 0)
+                {
+                    return BadRequest(new { message = "Invalid user ID." });
+                }
 
-            var posts = _ExtentionPostService.GetByUserId(id);
-            if (posts == null || !posts.Any())
+                var posts = _ExtentionPostService.GetByUserId(userId);
+                if (posts == null || !posts.Any())
+                {
+                    return NotFound(new { message = "No posts found for this user." });
+                }
+
+                return Ok(posts);
+            }
+            catch (Exception ex)
             {
-                return NotFound(new { message = "No posts found for this user." });
+                return StatusCode(500, new { message = $"Internal server error: {ex.Message}" });
             }
-
-            return Ok(posts);
         }
-
-
     }
 }
