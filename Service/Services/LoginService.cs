@@ -13,13 +13,16 @@ namespace Service.Services
     public class LoginService : ILoginService
     {
         private readonly IService<UserDto> _userService;
+        private readonly IUserService _extensionUserService;
         private readonly IConfiguration _configuration;
 
-        public LoginService(IService<UserDto> userService, IConfiguration configuration)
+        public LoginService(IService<UserDto> userService, IUserService extensionUserService, IConfiguration configuration)
         {
             _userService = userService;
+            this._extensionUserService = extensionUserService;
             _configuration = configuration;
         }
+
 
         public string Authenticate(string email, string password)
         {
@@ -30,15 +33,14 @@ namespace Service.Services
                     throw new ArgumentException("Email and password must be provided.");
                 }
 
-                var user = _userService.GetAll()
-                    .FirstOrDefault(x => x.Email == email && x.PasswordHash == password);
-                if (user == null)
-                {
-                    return null; // אם אין משתמש מתאים, נחזיר NULL
-                }
+                var user = _extensionUserService.GetUserByEmail(email);
+            if (user == null || user.PasswordHash != password) // **החלפת השוואת סיסמה לפי הצפנה במציאותTODO 
+            {
+                return null;
+            }
 
                 return GenerateToken(user);
-            }
+    }
             catch (Exception ex)
             {
                 throw new Exception($"Error during authentication: {ex.Message}");

@@ -90,7 +90,7 @@ namespace SportNetwork.Controllers
         }
 
         // קבלת עוקבים לפי ID של משתמש
-        [Authorize]
+        //[Authorize]
         [HttpGet("user/{userId}/followers")]
         public IActionResult GetFollowersByUserId(int userId)
         {
