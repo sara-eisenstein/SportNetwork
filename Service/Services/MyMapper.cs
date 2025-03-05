@@ -32,19 +32,22 @@ namespace Service.Services
 
             // Map בין Post ל-PostDto
             CreateMap<Post, PostDto>()
-            .ForMember(dest => dest.CreatedDate, src =>
-        src.MapFrom(src => src.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")))
+    .ForMember(dest => dest.CreatedDate, src =>
+        src.MapFrom(s => s.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")))
     .ForMember(dest => dest.Media, src =>
-        src.MapFrom(src => ConvertToByte(Environment.CurrentDirectory+ "/media/"+ src.Media)))
+        src.MapFrom(s => ConvertToByte(Environment.CurrentDirectory + "/media/" + s.Media)))
     .ReverseMap();
+
 
             CreateMap<PostDto, Post>()
                 .ForMember(dest => dest.Media, src => src
                 .MapFrom(s => s.File.FileName));
 
 
+
             // Map בין Comment ל-CommentDto
             CreateMap<Comment, CommentDto>().ReverseMap();
+            
 
             // Map בין Challenge ל-ChallengeDto
             CreateMap<Challenge, ChallengeDto>().ReverseMap();
@@ -57,6 +60,12 @@ namespace Service.Services
 
             // Map בין ChatMessage ל-ChatMessageDto
             CreateMap<ChatMessage, ChatMessageDto>().ReverseMap();
+            //map בין ChallengeParticipant ל ChallengeParticipantDto
+            CreateMap<ChallengeParticipant, ChallengeParticipantDto>().ReverseMap();    
+
+            // Map בין ChallengeParticipant ל-ChallengeParticipantDto
+
+            CreateMap<ChallengeParticipant, ChallengeParticipantDto>().ReverseMap();
 
 
 

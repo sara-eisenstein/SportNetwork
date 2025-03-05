@@ -39,6 +39,7 @@ namespace SportNetwork.Controllers
         {
             return _postService.Get(id);
         }
+        
 
         // POST api/<PostController>
         [HttpPost]
@@ -58,7 +59,8 @@ namespace SportNetwork.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromForm] PostDto value)
         {
-            _postService.Update(value);
+             _postService.Update(value, id);
+
         }
 
         // DELETE api/<PostController>/5
@@ -139,6 +141,10 @@ namespace SportNetwork.Controllers
             return Ok(posts);
         }
 
+
+
+            
+        
 
     }
 }

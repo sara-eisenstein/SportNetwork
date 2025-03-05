@@ -43,16 +43,21 @@ namespace Repositorys.Rpository
         {
             return context.chatMessages.ToList();
         }
+        
 
-        public ChatMessage Update(ChatMessage item)
+        public ChatMessage Update(ChatMessage item,int id )
+
         {
-            var existingMessage = Get(item.MessageId);
+            var existingMessage = Get(id);
             if (existingMessage != null)
             {
                 existingMessage.SenderId = item.SenderId;
                 existingMessage.RecipientId = item.RecipientId;
                 existingMessage.MessageContent = item.MessageContent;
                 existingMessage.SentDate = item.SentDate;
+
+                context.chatMessages.Update(existingMessage);
+
                 context.Save();
             }
             return existingMessage;

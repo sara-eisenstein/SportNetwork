@@ -12,8 +12,13 @@ using Mock;
 namespace Mock.Migrations
 {
     [DbContext(typeof(DataBase))]
-    [Migration("20250302195924_UpdateDatabaseSchema2")]
-    partial class UpdateDatabaseSchema2
+//<<<<<<<< HEAD:Mock/Migrations/20250302195924_UpdateDatabaseSchema2.Designer.cs
+//    [Migration("20250302195924_UpdateDatabaseSchema2")]
+//    partial class UpdateDatabaseSchema2
+//========
+    [Migration("20250123181315_init")]
+    partial class init
+//>>>>>>>> login-branch:Mock/Migrations/20250123181315_init.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

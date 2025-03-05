@@ -1,7 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.IdentityModel.Tokens;
 using Mock;
 using Repositorys.Interface;
+using Repositorys.Rpository;
+using Service.Interfaces;
 using Service.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +19,24 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<IContext, DataBase>();
 builder.Services.AddServiceExtension();
 
-//TODO להוסיף פה לפי המורה מה שצריך לטוקן
+
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
 
 //enable cors
 var MyAllowSpecificOrigins = "_MyAllowSpecificOrigins";

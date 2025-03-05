@@ -9,10 +9,12 @@ namespace SportNetwork.Controllers
     public class ChallengeController : ControllerBase
     {
         private readonly IService<ChallengeDto> _challengeService;
+        private readonly IChallengeService _challengeService2;
 
-        public ChallengeController(IService<ChallengeDto> service)
+        public ChallengeController(IService<ChallengeDto> service, IChallengeService challengeService2)
         {
             _challengeService = service;
+            _challengeService2 = challengeService2;
         }
 
         [HttpGet]
@@ -26,7 +28,11 @@ namespace SportNetwork.Controllers
         {
             return _challengeService.Get(id);
         }
-
+        [HttpGet("/challengeToUser/")]
+        public List<ChallengeDto> GetChallengeToUser(int userId)
+        {
+            return _challengeService2.GetChallengesByUserId(userId);
+        }
         [HttpPost]
         public void Post([FromForm] ChallengeDto value)
         {
@@ -36,7 +42,8 @@ namespace SportNetwork.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromForm] ChallengeDto value)
         {
-            _challengeService.Update(value);
+            _challengeService.Update(value, id);
+
         }
 
         [HttpDelete("{id}")]

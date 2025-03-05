@@ -33,6 +33,7 @@ namespace SportNetwork.Controllers
         {
             return _userService.Get(id);
         }
+   
 
         // POST api/<UserController>
         [HttpPost]
@@ -56,15 +57,19 @@ namespace SportNetwork.Controllers
         [Authorize]
         public void Put(int id, [FromForm] UserDto value)
         {
+
             if (User.FindFirst(ClaimTypes.NameIdentifier).Value != id.ToString())
 
                 throw new Exception("oops!"); // לא אתה? נחסום את הגישה
 
             else
             {
-                _userService.Update(value);
+                _userService.Update(value, id);
 
             }
+
+
+            
 
 
         }
@@ -74,6 +79,13 @@ namespace SportNetwork.Controllers
         public void Delete(int id)
         {
             _userService.Delete(id);    
+        }
+
+        [HttpGet("/getUserImage/{id}")]
+        public IActionResult GetImage(int id)
+        {
+            UserDto u = _userService.Get(id);
+            return File(u.ProfilePicture,"image/jpg");
         }
     }
 }

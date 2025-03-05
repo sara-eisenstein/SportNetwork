@@ -12,8 +12,9 @@ using Mock;
 namespace Mock.Migrations
 {
     [DbContext(typeof(DataBase))]
-    [Migration("20250119214704_init")]
-    partial class init
+
+    [Migration("20250302195924_UpdateDatabaseSchema2")]
+    partial class UpdateDatabaseSchema2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -209,8 +210,8 @@ namespace Mock.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Likes")
-                        .HasColumnType("int");
+                    b.Property<string>("Likes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Media")
                         .HasColumnType("nvarchar(max)");

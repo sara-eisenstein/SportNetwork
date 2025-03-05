@@ -118,7 +118,6 @@ namespace Mock.Migrations
 
                     b.Property<string>("MessageContent")
                         .IsRequired()
-
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
@@ -137,7 +136,6 @@ namespace Mock.Migrations
                     b.HasIndex("RecipientId");
 
                     b.HasIndex("SenderId");
-
 
                     b.ToTable("chatMessages");
                 });
@@ -268,6 +266,7 @@ namespace Mock.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+
                    // b.HasKey("UserId");
 
                    // b.ToTable("users");
@@ -275,6 +274,7 @@ namespace Mock.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("UserId");
+
 
                     b.ToTable("users");
                 });

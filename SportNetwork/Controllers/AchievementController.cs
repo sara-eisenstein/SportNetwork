@@ -43,7 +43,7 @@ namespace SportNetwork.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromForm] AchievementDto value)
         {
-            _achievementService.Update(value);
+            _achievementService.Update(value, id);
         }
 
         // DELETE api/<AchievementController>/5
