@@ -3,8 +3,6 @@ using Repositorys.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repositorys.Rpository
 {
@@ -27,16 +25,23 @@ namespace Repositorys.Rpository
         public void Delete(int id)
         {
             var achievement = Get(id);
-            if (achievement != null)
+            if (achievement == null)
             {
-                context.achivevements.Remove(achievement);
-                context.Save();
+                throw new Exception($"Achievement with ID {id} not found.");
             }
+
+            context.achivevements.Remove(achievement);
+            context.Save();
         }
 
         public Achievement Get(int id)
         {
-            return context.achivevements.FirstOrDefault(x => x.AchievementId == id);
+            var achievement = context.achivevements.FirstOrDefault(x => x.AchievementId == id);
+            if (achievement == null)
+            {
+                throw new Exception($"Achievement with ID {id} not found.");
+            }
+            return achievement;
         }
 
         public List<Achievement> GetAll()
@@ -47,19 +52,19 @@ namespace Repositorys.Rpository
         public Achievement Update(Achievement item, int id)
         {
             var existingAchievement = Get(id);
-
-            if (existingAchievement != null)
+            if (existingAchievement == null)
             {
-                existingAchievement.UserId = item.UserId;
-                existingAchievement.Title = item.Title;
-                existingAchievement.Description = item.Description;
-                existingAchievement.DateEarned = item.DateEarned;
-
-                context.achivevements.Update(existingAchievement);
-
-
-                context.Save();
+                throw new Exception($"Achievement with ID {id} not found.");
             }
+
+            existingAchievement.UserId = item.UserId;
+            existingAchievement.Title = item.Title;
+            existingAchievement.Description = item.Description;
+            existingAchievement.DateEarned = item.DateEarned;
+
+            context.achivevements.Update(existingAchievement);
+            context.Save();
+
             return existingAchievement;
         }
     }
