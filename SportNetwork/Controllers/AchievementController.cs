@@ -9,10 +9,13 @@ namespace SportNetwork.Controllers
     public class AchievementController : ControllerBase
     {
         private readonly IService<AchievementDto> _achievementService;
+        private readonly IAchievementService _extentionAchievementService;
 
-        public AchievementController(IService<AchievementDto> service)
+
+        public AchievementController(IService<AchievementDto> service, IAchievementService extentionAchievementService)
         {
             _achievementService = service;
+            _extentionAchievementService = extentionAchievementService;
         }
 
         // POST api/<AchievementController>
@@ -86,5 +89,30 @@ namespace SportNetwork.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpGet("user/{userId}")]
+        public IActionResult GetAchievementsByUserId(int userId)
+        {
+            try
+            {
+                if (userId <= 0)
+                {
+                    return BadRequest("Invalid user ID.");
+                }
+
+                var achievements = _extentionAchievementService.GetAchievementsByUserId(userId);
+                if (achievements == null || !achievements.Any())
+                {
+                    return NotFound($"No achievements found for user ID {userId}.");
+                }
+
+                return Ok(achievements);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }

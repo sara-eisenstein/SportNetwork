@@ -1,5 +1,4 @@
-﻿using Common.Dto;
-using Repositorys.Entities;
+﻿using Repositorys.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Repositorys.Interface
 {
-    public interface IChallengeRepository
+    public interface IAchievementRepository
     {
-        List<Challenge> GetChallengesByUserId(int userId);
+        List<Achievement> GetAchievementsByUserId(int userId);
+
     }
 }
