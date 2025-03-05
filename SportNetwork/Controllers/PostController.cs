@@ -111,6 +111,7 @@ namespace SportNetwork.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+
         }
 
         // DELETE api/<PostController>/5
@@ -151,6 +152,7 @@ namespace SportNetwork.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+
         }
 
         // הוספת לייק
@@ -224,5 +226,6 @@ namespace SportNetwork.Controllers
                 return StatusCode(500, new { message = $"Internal server error: {ex.Message}" });
             }
         }
+
     }
 }

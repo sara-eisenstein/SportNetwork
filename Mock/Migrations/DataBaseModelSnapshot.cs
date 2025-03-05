@@ -138,7 +138,6 @@ namespace Mock.Migrations
 
                     b.HasIndex("SenderId");
 
-
                     b.ToTable("chatMessages");
                 });
 
@@ -268,7 +267,6 @@ namespace Mock.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                   
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 

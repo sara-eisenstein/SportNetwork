@@ -35,6 +35,7 @@ namespace Repositorys.Entities
         public virtual ICollection<Follower> Followers { get; set; }
 
         // משתמשים שהמשתמש הנוכחי עוקב אחריהם
+
         [InverseProperty("FollowerUser")]
         public virtual ICollection<Follower> Following { get; set; }
     }

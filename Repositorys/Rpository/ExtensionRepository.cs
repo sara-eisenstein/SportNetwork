@@ -21,6 +21,7 @@ namespace Repositorys.Rpository
             services.AddScoped<IRepository<Comment>, CommentRepository>();
             services.AddScoped <ICommentRepository, ExtenstionCommentRepository>();
             services.AddScoped<IRepository<ChatMessage>, ChatMessageRepository>();
+            services.AddScoped<IChatMessageRepository, ExtensionChatMesasageRepository>();
             services.AddScoped<IRepository<ChallengeParticipant>, ChallengeParticipantRepository>();
             services.AddScoped<IRepository<Challenge>, ChallengeRepository>();
             services.AddScoped<IChallengeRepository, ExtensionChallengeRepository>();

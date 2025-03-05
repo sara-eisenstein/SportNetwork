@@ -64,6 +64,7 @@ namespace SportNetwork.Controllers
         // PUT api/<ChallengeParticipantController>/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromForm] ChallengeParticipantDto value)
+
         {
             try
             {

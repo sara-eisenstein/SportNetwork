@@ -22,7 +22,6 @@ namespace Repositorys.Entities
         [ForeignKey("FollowerUser")]
         public int FollowerUserId { get; set; } // המשתמש העוקב
 
- 
         public virtual User FollowerUser { get; set; }
     }
 

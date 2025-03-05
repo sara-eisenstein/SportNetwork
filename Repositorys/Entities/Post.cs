@@ -28,6 +28,5 @@ namespace Repositorys.Entities
         public string? Media { get; set; }
         
 
-
     }
 }

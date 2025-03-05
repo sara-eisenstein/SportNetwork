@@ -15,6 +15,7 @@ namespace Mock.Migrations
 
     [Migration("20250123181315_init")]
     partial class init
+
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

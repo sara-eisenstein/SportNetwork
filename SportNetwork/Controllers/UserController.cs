@@ -112,6 +112,7 @@ namespace SportNetwork.Controllers
                     return Unauthorized("User is not authenticated.");
                 }
 
+
                 if (userId != id.ToString())
                 {
                     return Forbid();
@@ -130,6 +131,7 @@ namespace SportNetwork.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+
         }
 
         // GET User Image

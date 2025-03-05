@@ -58,6 +58,7 @@ namespace Service.Services
                     new Claim(ClaimTypes.Email, user.Email),
                 };
 
+
                 var token = new JwtSecurityToken(
                     _configuration["Jwt:Issuer"],
                     _configuration["Jwt:Audience"],

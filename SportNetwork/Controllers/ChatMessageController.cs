@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
+using System.Security.Claims;
 
 namespace SportNetwork.Controllers
 {
@@ -50,6 +51,12 @@ namespace SportNetwork.Controllers
                     return NotFound($"Chat message with ID {id} not found.");
                 }
 
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (existingMessage.SenderId.ToString() != userId)
+                {
+                    return Forbid(); // ⛔ המשתמש אינו הבעלים של ההודעה
+                }
+
                 _chatMessageService.Update(value, id);
                 return Ok("Chat message updated successfully.");
             }
@@ -64,6 +71,8 @@ namespace SportNetwork.Controllers
         {
             try
             {
+                
+
                 if (id <= 0)
                 {
                     return BadRequest("Invalid chat message ID.");
@@ -73,6 +82,12 @@ namespace SportNetwork.Controllers
                 if (existingMessage == null)
                 {
                     return NotFound($"Chat message with ID {id} not found.");
+                }
+
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (existingMessage.SenderId.ToString() != userId)
+                {
+                    return Forbid(); // ⛔ המשתמש אינו הבעלים של ההודעה
                 }
 
                 _chatMessageService.Delete(id);

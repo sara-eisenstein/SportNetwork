@@ -14,7 +14,9 @@ namespace Mock.Migrations
     [DbContext(typeof(DataBase))]
     [Migration("20250302195924_UpdateDatabaseSchema2")]
     partial class UpdateDatabaseSchema2
-{    
+
+    {
+
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
