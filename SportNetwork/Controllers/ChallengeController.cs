@@ -39,17 +39,17 @@ namespace SportNetwork.Controllers
             _challengeService.Add(value);
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromForm] ChallengeDto value)
-        {
-            _challengeService.Update(value, id);
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromForm] ChallengeDto value)
+        //{
+        //    _challengeService.Update(value, id);
 
-        }
+        //}
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _challengeService.Delete(id);
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    _challengeService.Delete(id);
+        //}
     }
 }

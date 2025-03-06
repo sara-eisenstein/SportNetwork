@@ -19,18 +19,18 @@ namespace SportNetwork.Controllers
 
 
         // GET: api/<AchievementController>
-        [HttpGet]
-        public List<AchievementDto> Get()
-        {
-            return _achievementService.GetAll();
-        }
+        //[HttpGet]
+        //public List<AchievementDto> Get()
+        //{
+        //    return _achievementService.GetAll();
+        //}
 
         // GET api/<AchievementController>/5
-        [HttpGet("{id}")]
-        public AchievementDto Get(int id)
-        {
-            return _achievementService.Get(id);
-        }
+        //[HttpGet("{id}")]
+        //public AchievementDto Get(int id)
+        //{
+        //    return _achievementService.Get(id);
+        //}
 
         // POST api/<AchievementController>
         [HttpPost]

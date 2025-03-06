@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Common.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repositorys.Rpository;
 using Service.Interfaces;
 using Service.Services;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,6 +30,7 @@ namespace SportNetwork.Controllers
 
         // GET: api/<PostController>
         [HttpGet]
+        [Authorize]
         public List<PostDto> Get()
         {
             return _postService.GetAll();
@@ -43,8 +46,10 @@ namespace SportNetwork.Controllers
 
         // POST api/<PostController>
         [HttpPost]
+        [Authorize]
         public void Post([FromForm] PostDto value)
         {
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != value.UserId.ToString()) { 
             var filePath = Path.Combine
                 (Environment.CurrentDirectory, "media/", value.File.FileName);
             using (FileStream fs = new FileStream(filePath, FileMode.Create))
@@ -52,22 +57,32 @@ namespace SportNetwork.Controllers
                 value.File.CopyTo(fs);
             }
             _postService.Add(value);
-
+            }
+            else
+            {
+                throw new Exception("user not connect");
+            }
         }
 
         // PUT api/<PostController>/5
         [HttpPut("{id}")]
+        [Authorize]
         public void Put(int id, [FromForm] PostDto value)
-        {
-             _postService.Update(value, id);
-
+        {   if (User.FindFirst(ClaimTypes.NameIdentifier).Value != id.ToString())
+                _postService.Update(value, id);
+            else
+                throw new Exception("user not connect");
         }
 
         // DELETE api/<PostController>/5
         [HttpDelete("{id}")]
+        [Authorize]
         public void Delete(int id)
         {
-            _postService.Delete(id);
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != id.ToString())
+                _postService.Delete(id);
+            else
+                throw new Exception();
         }
 
         [HttpGet("/getPostImage/{id}")]
@@ -80,6 +95,8 @@ namespace SportNetwork.Controllers
 
         // הוספת לייק
         [HttpPost("{postId}/like/{userId}")]
+
+        [Authorize]
         public IActionResult LikePost(int postId, int userId)
         {
             try
@@ -95,6 +112,7 @@ namespace SportNetwork.Controllers
 
         // הסרת לייק
         [HttpDelete("{postId}/like/{userId}")]
+        [Authorize]
         public IActionResult UnlikePost(int postId, int userId)
         {
             try
@@ -110,6 +128,7 @@ namespace SportNetwork.Controllers
 
         // קבלת כמות לייקים
         [HttpGet("{postId}/likes")]
+
         public IActionResult GetLikeCount(int postId)
         {
             try

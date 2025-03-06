@@ -1,6 +1,8 @@
 ﻿using Common.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,18 +21,18 @@ namespace SportNetwork.Controllers
         }
 
         // GET: api/<CommentController>
-        [HttpGet]
-        public List<CommentDto> Get()
-        {
-            return _commentservice.GetAll();
-        }
+        //[HttpGet]
+        //public List<CommentDto> Get()
+        //{
+        //    return _commentservice.GetAll();
+        //}
 
         // GET api/<CommentController>/5
-        [HttpGet("{id}")]
-        public CommentDto Get(int id)
-        {
-            return _commentservice.Get(id);
-        }
+        //[HttpGet("{id}")]
+        //public CommentDto Get(int id)
+        //{
+        //    return _commentservice.Get(id);
+        //}
         // GET api/<CommentController>/5
         [HttpGet("/getcommentByPostId/")]
         public List<CommentDto> GetCommentByPostId(int postId)
@@ -40,23 +42,34 @@ namespace SportNetwork.Controllers
         }
         // POST api/<CommentController>
         [HttpPost]
+        [Authorize]
         public void Post([FromForm] CommentDto value)
         {
-            _commentservice.Add(value);
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != value.UserId.ToString())
+                _commentservice.Add(value);
+            else
+                throw new Exception("not connect");
         }
 
         // PUT api/<CommentController>/5
         [HttpPut("{id}")]
+        [Authorize]
         public void Put(int id, [FromForm] CommentDto value)
         {
-            _commentservice.Update(value, id);
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != value.UserId.ToString())
+                _commentservice.Update(value, id);
+            else throw new Exception("user not conncet");
         }
 
         // DELETE api/<CommentController>/5
         [HttpDelete("{id}")]
+        [Authorize]
         public void Delete(int id)
         {
-            _commentservice.Delete(id); 
+            var value=_commentservice.Get(id);
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != value.UserId.ToString())
+                _commentservice.Delete(id);
+            else throw new Exception("user not connect");
         }
     }
 }

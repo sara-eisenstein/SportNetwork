@@ -17,6 +17,7 @@ namespace Service.Services
     {
         private readonly IRepository<Post> repository;
         private readonly IMapper mapper;
+        private readonly ICommentRepository commentRepository;
 
         public PostService(IRepository<Post> repository, IMapper mapper)
         {
@@ -32,6 +33,7 @@ namespace Service.Services
 
         public void Delete(int id)
         {
+            var commentes=commentRepository.GetCommentByPostId(id);
             repository.Delete(id);
         }
 

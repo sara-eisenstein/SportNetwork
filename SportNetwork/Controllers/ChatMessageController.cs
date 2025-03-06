@@ -17,17 +17,17 @@ namespace SportNetwork.Controllers
             _chatMessageService2 = chatMessageService2;
         }
 
-        [HttpGet]
-        public List<ChatMessageDto> Get()
-        {
-            return _chatMessageService.GetAll();
-        }
+        //[HttpGet]
+        //public List<ChatMessageDto> Get()
+        //{
+        //    return _chatMessageService.GetAll();
+        //}
 
-        [HttpGet("{id}")]
-        public ChatMessageDto Get(int id)
-        {
-            return _chatMessageService.Get(id);
-        }
+        //[HttpGet("{id}")]
+        //public ChatMessageDto Get(int id)
+        //{
+        //    return _chatMessageService.Get(id);
+        //}
         [HttpGet("/getMessageById{id}")]
         public List<ChatMessageDto> GetChatMessage(int id)
         {

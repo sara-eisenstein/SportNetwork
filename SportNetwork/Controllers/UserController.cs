@@ -31,7 +31,15 @@ namespace SportNetwork.Controllers
         [HttpGet("{id}")]
         public UserDto Get(int id)
         {
-            return _userService.Get(id);
+            if (User.FindFirst(ClaimTypes.NameIdentifier).Value != id.ToString())
+
+                throw new Exception("you are not connect"); // לא אתה? נחסום את הגישה
+
+            else
+            {
+                 return  _userService.Get( id);
+
+            }
         }
    
 
@@ -74,12 +82,12 @@ namespace SportNetwork.Controllers
 
         }
 
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _userService.Delete(id);    
-        }
+        //// DELETE api/<UserController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //    _userService.Delete(id);    
+        //}
 
         [HttpGet("/getUserImage/{id}")]
         public IActionResult GetImage(int id)
