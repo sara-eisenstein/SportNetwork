@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Repositorys.Interface
 {
-    public interface IChallengeRepository
+    public interface IUserRepository
     {
-        List<Challenge> GetChallengesByUserId(int userId);
+        User GetUserByEmail(string email);
+
     }
 }

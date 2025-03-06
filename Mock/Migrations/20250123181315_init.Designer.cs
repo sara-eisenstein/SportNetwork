@@ -13,8 +13,9 @@ namespace Mock.Migrations
 {
     [DbContext(typeof(DataBase))]
 
-    [Migration("20250302195924_UpdateDatabaseSchema2")]
-    partial class UpdateDatabaseSchema2
+    [Migration("20250123181315_init")]
+    partial class init
+
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

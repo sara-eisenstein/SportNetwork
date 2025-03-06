@@ -15,11 +15,13 @@ namespace Repositorys.Entities
         public int FollowerId { get; set; }
 
         [ForeignKey("User")]
+
         public int UserId { get; set; } // המשתמש הנעקב
         public virtual User User { get; set; }
 
         [ForeignKey("FollowerUser")]
         public int FollowerUserId { get; set; } // המשתמש העוקב
+
         public virtual User FollowerUser { get; set; }
     }
 

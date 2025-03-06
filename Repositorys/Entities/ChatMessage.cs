@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,11 +12,11 @@ namespace Repositorys.Entities
     public class ChatMessage
     {
 
-        [Key]
-        public int MessageId { get; set; }
+        [Key] public int MessageId { get; set; }
 
         [Required] // Sender ID cannot be null
-        public int SenderId { get; set; }
+        public int SenderId { get; set; } // Foreign key to User
+
 
         [ForeignKey("SenderId")]
         public virtual User Sender { get; set; }

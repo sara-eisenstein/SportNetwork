@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
+using System.Security.Claims;
 
 namespace SportNetwork.Controllers
 {
@@ -9,11 +10,11 @@ namespace SportNetwork.Controllers
     public class ChatMessageController : ControllerBase
     {
         private readonly IService<ChatMessageDto> _chatMessageService;
-        private readonly IChatMessageService _chatMessageService2;
 
-        public ChatMessageController(IService<ChatMessageDto> service, IChatMessageService chatMessageService2)
+        public ChatMessageController(IService<ChatMessageDto> service)
         {
             _chatMessageService = service;
+<<<<<<< HEAD
             _chatMessageService2 = chatMessageService2;
         }
 
@@ -32,24 +33,91 @@ namespace SportNetwork.Controllers
         public List<ChatMessageDto> GetChatMessage(int id)
         {
             return _chatMessageService2.GetChatMassages(id);
+=======
+>>>>>>> 373b4ec11967f64dd9046533683847848a5db4fe
         }
 
         [HttpPost]
-        public void Post([FromForm] ChatMessageDto value)
+        public IActionResult Post([FromForm] ChatMessageDto value)
         {
-            _chatMessageService.Add(value);
+            try
+            {
+                if (value == null)
+                {
+                    return BadRequest("Invalid chat message data.");
+                }
+
+                _chatMessageService.Add(value);
+                return Ok("Chat message added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromForm] ChatMessageDto value)
+        public IActionResult Put(int id, [FromForm] ChatMessageDto value)
         {
-            _chatMessageService.Update(value, id);
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid chat message ID.");
+                }
+
+                var existingMessage = _chatMessageService.Get(id);
+                if (existingMessage == null)
+                {
+                    return NotFound($"Chat message with ID {id} not found.");
+                }
+
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (existingMessage.SenderId.ToString() != userId)
+                {
+                    return Forbid(); // ⛔ המשתמש אינו הבעלים של ההודעה
+                }
+
+                _chatMessageService.Update(value, id);
+                return Ok("Chat message updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _chatMessageService.Delete(id);
+            try
+            {
+                
+
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid chat message ID.");
+                }
+
+                var existingMessage = _chatMessageService.Get(id);
+                if (existingMessage == null)
+                {
+                    return NotFound($"Chat message with ID {id} not found.");
+                }
+
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (existingMessage.SenderId.ToString() != userId)
+                {
+                    return Forbid(); // ⛔ המשתמש אינו הבעלים של ההודעה
+                }
+
+                _chatMessageService.Delete(id);
+                return Ok("Chat message deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }

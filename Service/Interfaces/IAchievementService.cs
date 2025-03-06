@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repositorys.Interface
+namespace Service.Interfaces
 {
-    public interface IChallengeRepository
+    public interface IAchievementService
     {
-        List<Challenge> GetChallengesByUserId(int userId);
+        List<AchievementDto> GetAchievementsByUserId(int userId);
+
     }
 }

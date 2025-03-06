@@ -21,20 +21,33 @@ namespace Service.Services
         {
 
             services.AddRepository();
+
             services.AddScoped<IService<UserDto>, UserService>();
+            services.AddScoped<IUserService, ExtensionUserService>();
+
             services.AddScoped<IService<PostDto>, PostService>();
             services.AddScoped<IPostService, ExtentionPostService>();
+
             services.AddScoped<IService<FollowerDto>, FollowerService>();
             services.AddScoped<IFollowerService, ExtentionFollowerService>();
+
             services.AddScoped<IService<CommentDto>, CommentService>();
             services.AddScoped<IcommentService, ExtensionCommentService>();
+
             services.AddScoped<IService<ChatMessageDto>, ChatMessageService>();
             services.AddScoped<IChatMessageService, ExtensionChatMessageService>();
+
             services.AddScoped<IService<ChallengeParticipantDto>, ChallengeParticipantService>();
+
             services.AddScoped<IService<ChallengeDto>, ChallengeService>();
             services.AddScoped<IChallengeService, ExtensionChallengeService>();
+
             services.AddScoped<IService<AchievementDto>, AchievementService>();
+            services.AddScoped<IAchievementService, ExtensionAchievementService>();
+
+
             services.AddScoped<ILoginService, LoginService>();
+
             services.AddAutoMapper(typeof(MyMapper));
             return services;
         }

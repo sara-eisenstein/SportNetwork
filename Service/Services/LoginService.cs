@@ -3,50 +3,78 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using static Service.Services.LoginService;
 
 namespace Service.Services
 {
-    public class LoginService:ILoginService
+    public class LoginService : ILoginService
     {
-       
-            private readonly IConfiguration _configuration;
+        private readonly IService<UserDto> _userService;
+        private readonly IUserService _extensionUserService;
+        private readonly IConfiguration _configuration;
 
-            public LoginService(IConfiguration configuration)
+        public LoginService(IService<UserDto> userService, IUserService extensionUserService, IConfiguration configuration)
+        {
+            _userService = userService;
+            this._extensionUserService = extensionUserService;
+            _configuration = configuration;
+        }
+
+
+        public string Authenticate(string email, string password)
+        {
+            try
             {
-                _configuration = configuration;
+                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                {
+                    throw new ArgumentException("Email and password must be provided.");
+                }
+
+                var user = _extensionUserService.GetUserByEmail(email);
+            if (user == null || user.PasswordHash != password) // **החלפת השוואת סיסמה לפי הצפנה במציאותTODO 
+            {
+                return null;
             }
 
-            public string GenerateToken(UserDto user)
+                return GenerateToken(user);
+    }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error during authentication: {ex.Message}");
+            }
+        }
+
+        private string GenerateToken(UserDto user)
+        {
+            try
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
                 var claims = new[]
                 {
-            new Claim(ClaimTypes.Name, user.FirstName),
-            new Claim(ClaimTypes.Surname, user.LastName),
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            new Claim(ClaimTypes.Email, user.Email)
-        };
+                    new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                };
+
 
                 var token = new JwtSecurityToken(
                     _configuration["Jwt:Issuer"],
                     _configuration["Jwt:Audience"],
                     claims,
                     expires: DateTime.UtcNow.AddDays(1),
-                    signingCredentials: credentials
-                );
+                    signingCredentials: credentials);
 
                 return new JwtSecurityTokenHandler().WriteToken(token);
             }
-        
-
+            catch (Exception ex)
+            {
+                throw new Exception($"Error generating JWT token: {ex.Message}");
+            }
+        }
     }
 }
+
