@@ -8,9 +8,6 @@ namespace SportNetwork.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-
-       
-
         private readonly ILoginService _loginService;
 
         public LoginController(ILoginService loginService)
@@ -20,16 +17,16 @@ namespace SportNetwork.Controllers
 
         // POST api/login
         [HttpPost]
-        public IActionResult Login([FromQuery] string email, [FromQuery] string password)
+        public IActionResult Login([FromBody] LoginDto loginDto)
         {
             try
             {
-                if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                if (string.IsNullOrEmpty(loginDto.Email) || string.IsNullOrEmpty(loginDto.Password))
                 {
                     return BadRequest("Email and password are required.");
                 }
 
-                var token = _loginService.Authenticate(email, password);
+                var token = _loginService.Authenticate(loginDto.Email, loginDto.Password);
                 if (token == null)
                 {
                     return Unauthorized("User does not exist or incorrect credentials.");
@@ -41,7 +38,6 @@ namespace SportNetwork.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-
         }
     }
 }
