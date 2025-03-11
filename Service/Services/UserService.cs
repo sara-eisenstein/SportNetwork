@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Dto;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace Service.Services
@@ -16,17 +17,27 @@ namespace Service.Services
     {
         private readonly IRepository<User> repository;
         private readonly IMapper mapper;
+        private readonly PasswordHasher<string> _passwordHasher;
+
 
         public UserService(IRepository<User> repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this._passwordHasher = new PasswordHasher<string>();
         }
 
         public UserDto Add(UserDto item)
         {
             var entity = mapper.Map<User>(item);
-            return mapper.Map<UserDto>(repository.Add(entity));
+
+            // הצפנת הסיסמה לפני השמירה
+            entity.PasswordHash = _passwordHasher.HashPassword(null, item.PasswordHash);
+
+            // שמירת המשתמש בבסיס הנתונים
+            var savedEntity = repository.Add(entity);
+
+            return mapper.Map<UserDto>(savedEntity);
         }
 
         public void Delete(int id)

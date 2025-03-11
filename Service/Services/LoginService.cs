@@ -1,4 +1,5 @@
 ﻿using Common.Dto;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Interfaces;
@@ -15,12 +16,16 @@ namespace Service.Services
         private readonly IService<UserDto> _userService;
         private readonly IUserService _extensionUserService;
         private readonly IConfiguration _configuration;
+        private readonly PasswordHasher<string> _passwordHasher;
+
 
         public LoginService(IService<UserDto> userService, IUserService extensionUserService, IConfiguration configuration)
         {
-            _userService = userService;
+            this._userService = userService;
             this._extensionUserService = extensionUserService;
-            _configuration = configuration;
+            this._configuration = configuration;
+            this._passwordHasher = new PasswordHasher<string>(); // יצירת אובייקט להצפנת סיסמאות
+
         }
 
 
@@ -34,18 +39,26 @@ namespace Service.Services
                 }
 
                 var user = _extensionUserService.GetUserByEmail(email);
-            if (user == null || user.PasswordHash != password) // **החלפת השוואת סיסמה לפי הצפנה במציאותTODO 
-            {
-                return null;
-            }
+                if (user == null)
+                {
+                    return null;
+                }
 
-                return GenerateToken(user);
-    }
+                // אימות הסיסמה המוצפנת
+                var result = _passwordHasher.VerifyHashedPassword(null, user.PasswordHash, password);
+                if (result != PasswordVerificationResult.Success)
+                {
+                    return null;
+                }
+
+                return GenerateToken(user); // מחזיר טוקן אם הסיסמה נכונה
+            }
             catch (Exception ex)
             {
                 throw new Exception($"Error during authentication: {ex.Message}");
             }
         }
+
 
         private string GenerateToken(UserDto user)
         {
