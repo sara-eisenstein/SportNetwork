@@ -28,6 +28,18 @@ namespace Service.Services
                 .ForMember(dest => dest.ProfilePicture, src => src
                 .MapFrom(s => s.File.FileName));
 
+            // Map בין User ל-UserDtoPublic
+            CreateMap< User, userPublicDto > ()
+                .ForMember(dest => dest.ProfilePicture, src => src
+                .MapFrom(s => ConvertToByte(Environment.CurrentDirectory
+                + "/media/" + s.ProfilePicture)));
+
+            CreateMap<userPublicDto, User>()
+                .ForMember(dest => dest.ProfilePicture, src => src
+                .MapFrom(s => s.File.FileName));
+
+
+
 
 
             // Map בין Post ל-PostDto

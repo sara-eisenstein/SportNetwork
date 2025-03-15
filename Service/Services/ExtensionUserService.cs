@@ -26,5 +26,11 @@ namespace Service.Services
         {
             return mapper.Map<UserDto>(userRepository.GetUserByEmail(email));
         }
+
+        public userPublicDto GetPublicUderDetails(int userId)
+        {
+            return mapper.Map<userPublicDto>(userRepository.GetPublicUderDetails(userId));
+        }
+
     }
 }

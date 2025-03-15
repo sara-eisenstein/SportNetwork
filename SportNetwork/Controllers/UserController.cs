@@ -15,11 +15,14 @@ namespace SportNetwork.Controllers
     public class UserController : ControllerBase
     {
         private readonly IService<UserDto> _userService;
+        private readonly IUserService _extensionUserService;
+
         public static string _Directory = Environment.CurrentDirectory + "/media/";
 
-        public UserController(IService<UserDto> userService)
+        public UserController(IService<UserDto> userService, IUserService extensionUserService)
         {
             this._userService = userService;
+            _extensionUserService = extensionUserService;
         }
 
         // GET: api/<UserController>
@@ -147,6 +150,27 @@ namespace SportNetwork.Controllers
                 }
 
                 return File(user.ProfilePicture, "image/jpg");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [HttpGet("{userId}/public")]
+        public IActionResult GetPublicUserDetails(int userId)
+        {
+            try
+            {
+                var userPublicDetails = _extensionUserService.GetPublicUderDetails(userId);
+
+                if (userPublicDetails == null)
+                {
+                    return NotFound($"User with ID {userId} not found.");
+                }
+
+                return Ok(userPublicDetails);
             }
             catch (Exception ex)
             {
