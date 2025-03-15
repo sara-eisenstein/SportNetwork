@@ -44,11 +44,13 @@ namespace Repositorys.Rpository
             if (post == null)
                 throw new Exception("Post not found.");
 
+            if (string.IsNullOrEmpty(post.Likes))
+                return post;
+
             var likes = post.Likes.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
 
             if (!likes.Contains(userId))
-                throw new Exception("User has not liked this post.");
-
+                return post;
             likes.Remove(userId);
             post.Likes = string.Join(",", likes);
 
@@ -65,7 +67,7 @@ namespace Repositorys.Rpository
             if (post == null)
                 throw new Exception("Post not found.");
 
-            return post.Likes.Split(',', StringSplitOptions.RemoveEmptyEntries).Length;
+            return post.Likes == null ? 0 : post.Likes.Split(',', StringSplitOptions.RemoveEmptyEntries).Length;
         }
 
 

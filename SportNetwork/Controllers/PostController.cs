@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Repositorys.Rpository;
 using Service.Interfaces;
 using Service.Services;
+using System.IO;
 
 namespace SportNetwork.Controllers
 {
@@ -14,16 +15,15 @@ namespace SportNetwork.Controllers
     public class PostController : ControllerBase
     {
         private readonly IService<PostDto> _postService;
-        public static string _Directory = Environment.CurrentDirectory + "/media/";
         private readonly IPostService _ExtentionPostService;
 
-        public PostController(IService<PostDto> postDervice, IPostService ExtentionPostService)
+        public PostController(IService<PostDto> postService, IPostService ExtentionPostService)
         {
-            _postService = postDervice;
+            _postService = postService;
             _ExtentionPostService = ExtentionPostService;
         }
 
-        // GET: api/<PostController>
+        // GET: api/Post
         [HttpGet]
         public IActionResult Get()
         {
@@ -42,7 +42,7 @@ namespace SportNetwork.Controllers
             }
         }
 
-        // GET api/<PostController>/5
+        // GET api/Post/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -61,7 +61,7 @@ namespace SportNetwork.Controllers
             }
         }
 
-        // POST api/<PostController>
+        // POST api/Post
         [HttpPost]
         public IActionResult Post([FromForm] PostDto value)
         {
@@ -72,10 +72,10 @@ namespace SportNetwork.Controllers
                     return BadRequest("Invalid post data or file is missing.");
                 }
 
-                var filePath = Path.Combine(Environment.CurrentDirectory, "media/", value.File.FileName);
-                using (FileStream fs = new FileStream(filePath, FileMode.Create))
+                using (var ms = new MemoryStream())
                 {
-                    value.File.CopyTo(fs);
+                    value.File.CopyTo(ms);
+                    value.Media = ms.ToArray(); // שמירת קובץ כ- byte[]
                 }
 
                 _postService.Add(value);
@@ -87,34 +87,7 @@ namespace SportNetwork.Controllers
             }
         }
 
-        // PUT api/<PostController>/5
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromForm] PostDto value)
-        {
-            try
-            {
-                if (value == null)
-                {
-                    return BadRequest("Invalid post data.");
-                }
-
-                var existingPost = _postService.Get(id);
-                if (existingPost == null)
-                {
-                    return NotFound($"Post with ID {id} not found.");
-                }
-
-                _postService.Update(value, id);
-                return Ok("Post updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-
-        }
-
-        // DELETE api/<PostController>/5
+        // DELETE api/Post/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -135,24 +108,24 @@ namespace SportNetwork.Controllers
             }
         }
 
-        [HttpGet("/getPostImage/{id}")]
+        // GET api/Post/getPostImage/5
+        [HttpGet("getPostImage/{id}")]
         public IActionResult GetImage(int id)
         {
             try
             {
                 var post = _postService.Get(id);
-                if (post == null )
+                if (post == null || post.Media == null || post.Media.Length == 0)
                 {
-                    return NotFound("Post not found.");
+                    return NotFound("Post image not found.");
                 }
 
-                return File(post.Media, "image/jpg");
+                return File(post.Media, "image/jpeg"); // שליחת המידע הבינארי ישירות
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-
         }
 
         // הוספת לייק
@@ -171,6 +144,7 @@ namespace SportNetwork.Controllers
             }
         }
 
+        [Authorize]
         // הסרת לייק
         [HttpDelete("{postId}/like/{userId}")]
         public IActionResult UnlikePost(int postId, int userId)
@@ -226,6 +200,5 @@ namespace SportNetwork.Controllers
                 return StatusCode(500, new { message = $"Internal server error: {ex.Message}" });
             }
         }
-
     }
 }

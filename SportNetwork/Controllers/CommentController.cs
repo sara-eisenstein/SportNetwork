@@ -21,7 +21,7 @@ namespace SportNetwork.Controllers
         }
 
         // GET api/<CommentController>/5
-        [HttpGet("/getcommentByPostId/")]
+        [HttpGet("post/{postId}/comments")]
         public IActionResult GetCommentByPostId(int postId)
         {
             try
