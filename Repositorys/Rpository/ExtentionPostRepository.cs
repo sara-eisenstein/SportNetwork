@@ -22,8 +22,15 @@ namespace Repositorys.Rpository
 
             if (post == null)
                 throw new Exception("Post not found.");
+            if (post.Likes == null)
+            {
+                post.Likes = ""; // 🛠 אתחול ברירת מחדל למניעת שגיאה
+            }
 
-            var likes = post.Likes.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+            var likes = post.Likes
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
 
             if (likes.Contains(userId))
                 throw new Exception("User has already liked this post.");

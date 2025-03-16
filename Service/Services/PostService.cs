@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Dto;
+using Service.Helpers;
 
 
 
@@ -27,6 +28,12 @@ namespace Service.Services
         public PostDto Add(PostDto item)
         {
             var entity = mapper.Map<Post>(item);
+
+            if (item.File != null)
+            {
+                entity.Media = FileHelper.SaveImageToDisk(item.File); // ✅ שמירת הקובץ
+            }
+
             return mapper.Map<PostDto>(repository.Add(entity));
         }
 
@@ -50,9 +57,14 @@ namespace Service.Services
         public PostDto Update(PostDto item, int id)
         {
             var entity = mapper.Map<Post>(item);
+
+            if (item.File != null)
+            {
+                entity.Media = FileHelper.SaveImageToDisk(item.File); // ✅ עדכון תמונה חדשה
+            }
+
             return mapper.Map<PostDto>(repository.Update(entity, id));
         }
 
-       
     }
 }
