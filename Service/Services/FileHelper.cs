@@ -7,7 +7,11 @@ namespace Service.Helpers
 {
     public static class FileHelper
     {
-        private static readonly string[] AllowedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
+        private static readonly string[] AllowedImageExtensions =
+{
+    ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".svg" , ".mp4", ".mov", ".avi", ".wmv", ".flv", ".mkv", ".webm"
+};
+
         private const long MaxFileSize = 5 * 1024 * 1024; // 5MB
 
         public static string SaveImageToDisk(IFormFile file)
@@ -16,7 +20,7 @@ namespace Service.Helpers
                 return null;
 
             var extension = Path.GetExtension(file.FileName).ToLower();
-            if (!AllowedExtensions.Contains(extension))
+            if (!AllowedImageExtensions.Contains(extension))
                 throw new Exception("Invalid file type. Only JPG, PNG, and GIF are allowed.");
 
             if (file.Length > MaxFileSize)

@@ -108,6 +108,48 @@ namespace SportNetwork.Controllers
             }
         }
 
+        // עדכון פוסט קיים
+        [Authorize]
+        [HttpPut("{id}")]
+        public IActionResult UpdatePost(int id, [FromForm] PostDto value)
+        {
+            try
+            {
+                if (value == null)
+                {
+                    return BadRequest("Invalid post data.");
+                }
+
+                var existingPost = _postService.Get(id);
+                if (existingPost == null)
+                {
+                    return NotFound($"Post with ID {id} not found.");
+                }
+
+                // אם יש תמונה חדשה, עדכן אותה
+                if (value.File != null)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        value.File.CopyTo(ms);
+                        value.Media = ms.ToArray(); // עדכון התמונה בפורמט byte[]
+                    }
+                }
+                else
+                {
+                    value.Media = existingPost.Media; // שמירת התמונה הקיימת
+                }
+
+                _postService.Update(value, id);
+                return Ok("Post updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
         // GET api/Post/getPostImage/5
         [HttpGet("getPostImage/{id}")]
         public IActionResult GetImage(int id)

@@ -17,6 +17,8 @@ namespace Repositorys.Rpository
         }
         public User Add(User entity)
         {
+            entity.DateJoined = DateTime.UtcNow;
+            entity.Status = true;
             _context.users.Add(entity);
             _context.Save();
             return entity;
@@ -52,13 +54,19 @@ namespace Repositorys.Rpository
             // עדכון השדות הרצויים
 
             user.Email = entity.Email;
-            user.ProfilePicture = entity.ProfilePicture;
+            if (entity.ProfilePicture != null)
+            {
+                user.ProfilePicture = entity.ProfilePicture;
+
+
+            }
             user.FirstName = entity.FirstName;
             user.LastName = entity.LastName;
             user.DateJoined = entity.DateJoined;
             user.Bio = entity.Bio;
             user.Status = entity.Status;
             user.Level = entity.Level;
+            user.Goals = entity.Goals;
 
             // שמירת השינויים ל-DB
 

@@ -58,8 +58,21 @@ namespace Service.Services
         public UserDto Update(UserDto item, int id)
         {
             var entity = mapper.Map<User>(item);
-            return mapper.Map<UserDto>(repository.Update(entity, id));
 
+            // בדיקה אם המשתמש סיפק סיסמה חדשה, ואם כן – להצפין אותה
+            if (!string.IsNullOrEmpty(item.PasswordHash))
+            {
+                entity.PasswordHash = _passwordHasher.HashPassword(null, item.PasswordHash);
+            }
+            else
+            {
+                // אם הסיסמה ריקה, נשמור את הסיסמה הנוכחית של המשתמש הקיים
+                var existingUser = repository.Get(id);
+                entity.PasswordHash = existingUser?.PasswordHash;
+            }
+
+            return mapper.Map<UserDto>(repository.Update(entity, id));
         }
+
     }
 }

@@ -25,7 +25,7 @@ namespace Repositorys.Entities
         public string ProfilePicture { get; set; }
         public string Goals { get; set; }
         public string Bio { get; set; }
-        public DateTime DateJoined { get; set; }
+        public DateTime DateJoined { get; set; } = DateTime.UtcNow;
         public bool Status { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
 
