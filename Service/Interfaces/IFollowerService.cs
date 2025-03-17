@@ -10,6 +10,7 @@ namespace Service.Interfaces
 {
     public interface IFollowerService
     {
-        List<FollowerDto> GetFollowersByUserId(int userId);
+        List<userPublicDto> GetFollowersByUserId(int userId);
+        List<userPublicDto> GetFollowingByUserId(int userId);
     }
 }

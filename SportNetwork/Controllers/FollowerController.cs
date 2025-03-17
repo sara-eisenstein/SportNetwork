@@ -89,7 +89,6 @@ namespace SportNetwork.Controllers
             }
         }
 
-        // קבלת עוקבים לפי ID של משתמש
         //[Authorize]
         [HttpGet("user/{userId}/followers")]
         public IActionResult GetFollowersByUserId(int userId)
@@ -102,7 +101,7 @@ namespace SportNetwork.Controllers
                 }
 
                 var followers = _extensionFollowerService.GetFollowersByUserId(userId);
-                if (followers == null || !followers.Any())
+                if (!followers.Any()) // אין צורך בבדיקת null
                 {
                     return NotFound(new { message = "No followers found for this user." });
                 }
@@ -111,8 +110,34 @@ namespace SportNetwork.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = $"Internal server error: {ex.Message}" });
+                return StatusCode(500, new { message = "An unexpected error occurred. Please try again later." });
             }
         }
+
+        //[Authorize]
+        [HttpGet("user/{userId}/following")]
+        public IActionResult GetFollowingByUserId(int userId)
+        {
+            try
+            {
+                if (userId <= 0)
+                {
+                    return BadRequest(new { message = "Invalid user ID." });
+                }
+
+                var following = _extensionFollowerService.GetFollowingByUserId(userId);
+                if (!following.Any()) // שינוי השם מ-followers ל-following
+                {
+                    return NotFound(new { message = "No following found for this user." });
+                }
+
+                return Ok(following);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred. Please try again later." });
+            }
+        }
+
     }
 }

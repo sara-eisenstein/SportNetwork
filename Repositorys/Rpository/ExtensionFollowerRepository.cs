@@ -1,4 +1,5 @@
-﻿using Repositorys.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Repositorys.Entities;
 using Repositorys.Interface;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,25 @@ namespace Repositorys.Rpository
         {
             this.context = context;
         }
-        public List<Follower> GetFollowersByUserId(int userId)
+
+        public List<User> GetFollowersByUserId(int userId)
         {
-            
-            
-                return context.followers.Where(x => x.UserId == userId).ToList();
-            
+            return context.followers
+                .Where(f => f.FollowerUserId == userId) // מחפש את כל המשתמשים שעוקבים אחרי המשתמש הזה
+                .Select(f => f.User) // ✅ מחזיר את רשימת *העוקבים* (מי שעוקב אחרי המשתמש)
+                .ToList();
         }
+
+
+        public List<User> GetFollowingByUserId(int userId)
+        {
+            return context.followers
+                .Where(f => f.UserId == userId) // מחפש את כל המשתמשים שהמשתמש הזה עוקב אחריהם
+                .Select(f => f.FollowerUser) // ✅ מחזיר את רשימת *הנעקבים* (מי שהמשתמש עוקב אחריו)
+                .ToList();
+        }
+
+
+
     }
 }

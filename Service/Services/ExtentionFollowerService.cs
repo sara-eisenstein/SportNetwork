@@ -23,10 +23,15 @@ namespace Service.Services
             this.mapper = mapper;
         }
 
-
-        public List<FollowerDto> GetFollowersByUserId(int userId)
+        public List<userPublicDto> GetFollowersByUserId(int userId)
         {
-            return mapper.Map<List<FollowerDto>>(followerRepository.GetFollowersByUserId(userId));
+            return mapper.Map<List<userPublicDto>>(followerRepository.GetFollowersByUserId(userId));
+
+        }
+
+        public List<userPublicDto> GetFollowingByUserId(int userId)
+        {
+            return mapper.Map<List<userPublicDto>>(followerRepository.GetFollowingByUserId(userId));
 
         }
     }

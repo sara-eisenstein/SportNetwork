@@ -9,6 +9,8 @@ namespace Repositorys.Interface
 {
     public interface IFollowerRepository
     {
-        List<Follower> GetFollowersByUserId(int userId);
+        List<User> GetFollowersByUserId(int userId);
+        List<User> GetFollowingByUserId(int userId);
+
     }
 }
