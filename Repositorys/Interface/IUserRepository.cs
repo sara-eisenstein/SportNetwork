@@ -11,6 +11,7 @@ namespace Repositorys.Interface
     public interface IUserRepository
     {
         User GetUserByEmail(string email);
+        public string getUserName(int userId);
 
     }
 }

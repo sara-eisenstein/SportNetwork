@@ -9,6 +9,6 @@ namespace Repositorys.Interface
 {
     public interface IChatMessageRepository
     {
-        public List<ChatMessage> GetChatMassages(int id);
+        List<ChatMessage> GetChatMessages(int userId, int otherUserId, int pageNumber);
     }
 }

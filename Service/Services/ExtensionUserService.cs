@@ -26,5 +26,9 @@ namespace Service.Services
         {
             return mapper.Map<UserDto>(userRepository.GetUserByEmail(email));
         }
+        public string getUserName(int userId)
+        {
+            return userRepository.getUserName(userId);
+        }
     }
 }

@@ -21,5 +21,11 @@ namespace Repositorys.Rpository
         {
             return context.users.FirstOrDefault(p => p.Email == email);
         }
+        public string getUserName(int userId) {
+            string res= context.users.FirstOrDefault(x => x.UserId == userId).FirstName;
+            res += " ";
+            res += context.users.FirstOrDefault(x => x.UserId == userId).LastName;
+            return res;
+        }
     }
 }

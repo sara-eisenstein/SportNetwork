@@ -47,7 +47,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
     {
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        policy.WithOrigins("http://localhost:3000") // ✅ הגדר דומיין ספציפי
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials(); // 🟢 חשוב ל-WebSockets
     });
 });
 
@@ -68,7 +71,8 @@ app.UseAuthorization();
 
 // Enable CORS
 app.UseCors(MyAllowSpecificOrigins);
-
+// Enable WebSocket support
+app.UseWebSockets();
 app.MapControllers();
 
 app.Run();

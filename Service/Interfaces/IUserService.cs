@@ -10,6 +10,7 @@ namespace Service.Interfaces
     public interface IUserService
     {
         UserDto GetUserByEmail(string email);
+        public string getUserName(int userId);
 
     }
 }

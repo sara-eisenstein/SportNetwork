@@ -15,6 +15,7 @@ namespace SportNetwork.Controllers
     public class UserController : ControllerBase
     {
         private readonly IService<UserDto> _userService;
+        private readonly IUserService userService2;
         public static string _Directory = Environment.CurrentDirectory + "/media/";
 
         public UserController(IService<UserDto> userService)
@@ -72,7 +73,13 @@ namespace SportNetwork.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        [HttpGet("/name/{id}")]
+        public IActionResult GetName(int id) {
+        string name =userService2.getUserName(id);
+            if (name == null)
+                return Forbid("user not fund");
+            return Ok(name);
+        }
         // POST api/<UserController>
         [HttpPost]
         public IActionResult Post([FromForm] UserDto value)
