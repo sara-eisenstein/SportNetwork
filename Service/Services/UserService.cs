@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common.Dto;
 using Microsoft.AspNetCore.Identity;
+using Service.Helpers;
 
 
 namespace Service.Services
@@ -69,6 +70,11 @@ namespace Service.Services
                 // אם הסיסמה ריקה, נשמור את הסיסמה הנוכחית של המשתמש הקיים
                 var existingUser = repository.Get(id);
                 entity.PasswordHash = existingUser?.PasswordHash;
+            }
+
+            if (item.File != null)
+            {
+                entity.ProfilePicture = FileHelper.SaveImageToDisk(item.File); // ✅ עדכון תמונה חדשה
             }
 
             return mapper.Map<UserDto>(repository.Update(entity, id));
