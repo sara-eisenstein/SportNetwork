@@ -1,6 +1,7 @@
 ﻿using Common.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repositorys.Entities;
 using Service.Interfaces;
 using System.Security.Claims;
 
@@ -125,5 +126,31 @@ namespace SportNetwork.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpGet("participants/{challengeId}")]
+        public IActionResult GetParticipantsByChallengeId(int challengeId)
+        {
+            try
+            {
+                if (challengeId <= 0)
+                {
+                    return BadRequest("Challenge ID must be greater than zero.");
+                }
+
+                var participants = _extensionChallengeService.GetChallengePrticipantsById(challengeId);
+
+                if (participants == null || !participants.Any())
+                {
+                    return NotFound("No participants found for this challenge.");
+                }
+
+                return Ok(participants);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }

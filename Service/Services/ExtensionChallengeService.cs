@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Dto;
+using Repositorys.Entities;
 using Repositorys.Interface;
 using Service.Interfaces;
 using System;
@@ -23,5 +24,12 @@ namespace Service.Services
         {
             return _mapper.Map<List<ChallengeDto>>(_challengeService.GetChallengesByUserId(userId));
         }
+
+        public List<userPublicDto> GetChallengePrticipantsById(int challengeId)
+        {
+            return _mapper.Map<List<userPublicDto>>(_challengeService.GetChallengePrticipantsById(challengeId));
+
+        }
+
     }
 }

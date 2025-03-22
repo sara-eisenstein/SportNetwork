@@ -11,5 +11,7 @@ namespace Service.Interfaces
     public interface IChallengeService
     {
         List<ChallengeDto> GetChallengesByUserId(int userId);
+        List<userPublicDto> GetChallengePrticipantsById(int challengeId);
+
     }
 }

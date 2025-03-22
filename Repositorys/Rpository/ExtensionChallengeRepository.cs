@@ -1,4 +1,6 @@
-﻿using Repositorys.Entities;
+﻿using Common.Dto;
+using Microsoft.EntityFrameworkCore;
+using Repositorys.Entities;
 using Repositorys.Interface;
 using System;
 using System.Collections.Generic;
@@ -22,5 +24,16 @@ namespace Repositorys.Rpository
                 .Where(c => c.Participants.Any(p => p.UserId == userId))
                 .ToList();
         }
+
+        public List<User> GetChallengePrticipantsById(int challengeId)
+        {
+            return context.challengeParticipants
+            .Where(cp => cp.ChallengeId == challengeId)
+            .Include(cp => cp.User)
+            .Select(cp => cp.User)
+            .ToList();
+        }
+
+
     }
 }

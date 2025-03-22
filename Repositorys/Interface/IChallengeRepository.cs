@@ -11,5 +11,6 @@ namespace Repositorys.Interface
     public interface IChallengeRepository
     {
         List<Challenge> GetChallengesByUserId(int userId);
+        List<User> GetChallengePrticipantsById(int challengeId);
     }
 }
