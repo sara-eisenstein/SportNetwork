@@ -34,5 +34,11 @@ namespace Service.Services
             return mapper.Map<List<userPublicDto>>(followerRepository.GetFollowingByUserId(userId));
 
         }
+
+        public bool UnfollowUser(int userId, int unfollowUserId)
+        {
+            return followerRepository.UnfollowUser(userId, unfollowUserId);
+        }
+
     }
 }

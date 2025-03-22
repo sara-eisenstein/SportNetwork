@@ -139,5 +139,30 @@ namespace SportNetwork.Controllers
             }
         }
 
+
+        [HttpDelete("user/{userId}/unfollow/{unfollowUserId}")]
+        public IActionResult UnfollowUser(int userId, int unfollowUserId)
+        {
+            try
+            {
+                if (userId <= 0 || unfollowUserId <= 0)
+                {
+                    return BadRequest(new { message = "Invalid user ID or unfollow user ID." });
+                }
+
+                bool isUnfollowed = _extensionFollowerService.UnfollowUser(userId, unfollowUserId);
+                if (!isUnfollowed)
+                {
+                    return NotFound(new { message = "Follow relationship not found." });
+                }
+
+                return Ok(new { message = "Successfully unfollowed the user." });
+            }
+            catch
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred. Please try again later." });
+            }
+        }
+
     }
 }

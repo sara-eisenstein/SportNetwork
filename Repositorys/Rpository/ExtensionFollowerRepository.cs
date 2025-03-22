@@ -35,6 +35,20 @@ namespace Repositorys.Rpository
                 .ToList();
         }
 
+       public bool UnfollowUser(int userId, int unfollowUserId)
+        {
+            var followEntry = context.followers
+        .FirstOrDefault(f => f.UserId == userId && f.FollowerUserId == unfollowUserId);
+
+            if (followEntry == null)
+            {
+                return false; // המעקב לא נמצא, אין מה להסיר
+            }
+
+            context.followers.Remove(followEntry);
+            context.Save();
+            return true; // המעקב הוסר בהצלחה
+        }
 
 
     }

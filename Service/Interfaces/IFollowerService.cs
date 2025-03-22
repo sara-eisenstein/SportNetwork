@@ -12,5 +12,7 @@ namespace Service.Interfaces
     {
         List<userPublicDto> GetFollowersByUserId(int userId);
         List<userPublicDto> GetFollowingByUserId(int userId);
+        bool UnfollowUser(int userId, int unfollowUserId);
+
     }
 }

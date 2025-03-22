@@ -12,5 +12,7 @@ namespace Repositorys.Interface
         List<User> GetFollowersByUserId(int userId);
         List<User> GetFollowingByUserId(int userId);
 
+        bool UnfollowUser(int userId, int unfollowUserId);
+
     }
 }
