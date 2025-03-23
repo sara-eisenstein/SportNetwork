@@ -18,8 +18,6 @@ builder.Services.AddSwaggerGen();
 // Database Context Configuration
 builder.Services.AddDbContext<IContext, DataBase>();
 
-
-
 // Register services
 builder.Services.AddServiceExtension();
 
@@ -36,8 +34,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new 
-            SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
 
@@ -65,14 +62,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Enable CORS before authentication to allow cross-origin requests
+app.UseCors(MyAllowSpecificOrigins);
+
 // Enable authentication and authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Enable CORS
-app.UseCors(MyAllowSpecificOrigins);
 // Enable WebSocket support
 app.UseWebSockets();
+
+// Map controllers
 app.MapControllers();
 
 app.Run();

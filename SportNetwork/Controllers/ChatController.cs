@@ -17,7 +17,7 @@ namespace SportNetworkServer.Controllers
         private static List<WebSocket> _clients = new List<WebSocket>();
 
         [HttpGet("connect")]
-     
+
         public async Task<IActionResult> Connect()
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
