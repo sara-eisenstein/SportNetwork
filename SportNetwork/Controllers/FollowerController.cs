@@ -1,7 +1,9 @@
 ﻿using Common.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repositorys.Entities;
 using Service.Interfaces;
+using System.Security.Claims;
 
 namespace SportNetwork.Controllers
 {
@@ -45,15 +47,22 @@ namespace SportNetwork.Controllers
 
         // POST api/<FollowerController>
         [HttpPost]
+        [Authorize]
+
         public IActionResult Post([FromForm] FollowerDto value)
         {
             try
             {
+                var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
                 if (value == null)
                 {
                     return BadRequest("Invalid follower data.");
                 }
-
+                if (userIdFromToken != value.UserId.ToString())
+                {
+                    return Forbid("You are not authorized.");
+                }
                 _followerService.Add(value);
                 return Ok("Follower added successfully.");
             }
@@ -63,33 +72,9 @@ namespace SportNetwork.Controllers
             }
         }
 
-        // DELETE api/<FollowerController>/5
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                if (id <= 0)
-                {
-                    return BadRequest("Invalid follower ID.");
-                }
+        
 
-                var existingFollower = _followerService.Get(id);
-                if (existingFollower == null)
-                {
-                    return NotFound($"Follower with ID {id} not found.");
-                }
-
-                _followerService.Delete(id);
-                return Ok("Follower deleted successfully.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        //[Authorize]
+        
         [HttpGet("user/{userId}/followers")]
         public IActionResult GetFollowersByUserId(int userId)
         {
@@ -114,7 +99,6 @@ namespace SportNetwork.Controllers
             }
         }
 
-        //[Authorize]
         [HttpGet("user/{userId}/following")]
         public IActionResult GetFollowingByUserId(int userId)
         {
@@ -143,13 +127,19 @@ namespace SportNetwork.Controllers
         [HttpDelete("user/{userId}/unfollow/{unfollowUserId}")]
         public IActionResult UnfollowUser(int userId, int unfollowUserId)
         {
+
             try
             {
+                var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
                 if (userId <= 0 || unfollowUserId <= 0)
                 {
                     return BadRequest(new { message = "Invalid user ID or unfollow user ID." });
                 }
-
+                if (userIdFromToken != userId.ToString())
+                {
+                    return Forbid("You are not authorized.");
+                }
                 bool isUnfollowed = _extensionFollowerService.UnfollowUser(userId, unfollowUserId);
                 if (!isUnfollowed)
                 {

@@ -1,5 +1,7 @@
 ﻿using Common.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repositorys.Entities;
 using Service.Interfaces;
 using System.Security.Claims;
 
@@ -7,6 +9,8 @@ namespace SportNetwork.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class ChatMessageController : ControllerBase
     {
         private readonly IService<ChatMessageDto> _chatMessageService;
@@ -21,9 +25,17 @@ namespace SportNetwork.Controllers
         {
             try
             {
+                var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                
                 if (value == null)
                 {
                     return BadRequest("Invalid chat message data.");
+                }
+
+                if (userIdFromToken != value.SenderId.ToString())
+                {
+                    return Forbid("You are not authorized to do it.");
                 }
 
                 _chatMessageService.Add(value);

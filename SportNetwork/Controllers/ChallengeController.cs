@@ -9,7 +9,7 @@ namespace SportNetwork.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
 
     public class ChallengeController : ControllerBase
     {
@@ -27,11 +27,7 @@ namespace SportNetwork.Controllers
         {
             try
             {
-                //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                //if (userId == null)
-                //{
-                //    return Unauthorized("User is not authenticated.");
-                //}
+                
                 var challenges = _challengeService.GetAll();
                 if (challenges == null || !challenges.Any())
                 {
@@ -51,11 +47,6 @@ namespace SportNetwork.Controllers
         {
             try
             {
-                //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                //if (userId == null)
-                //{
-                //    return Unauthorized("User is not authenticated.");
-                //}
 
                 if (id <= 0)
                 {
@@ -81,11 +72,8 @@ namespace SportNetwork.Controllers
         {
             try
             {
-                //var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                //if (userId == null)
-                //{
-                //    return Unauthorized("User is not authenticated.");
-                //}
+                var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                
                 if (userId <= 0)
                 {
                     return BadRequest("Invalid user ID.");
@@ -96,10 +84,12 @@ namespace SportNetwork.Controllers
                 {
                     return NotFound($"No challenges found for user ID {userId}.");
                 }
-                //if (userIdFromToken != userId.ToString())
-                //{
-                //    return Forbid();
-                //}
+                if (userIdFromToken != userId.ToString())
+                {
+                    return Forbid("You are not authorized to access this challenges.");
+                }
+
+
                 return Ok(challenges);
             }
             catch (Exception ex)

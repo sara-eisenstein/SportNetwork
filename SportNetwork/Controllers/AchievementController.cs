@@ -1,11 +1,16 @@
 ﻿using Common.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repositorys.Entities;
 using Service.Interfaces;
+using System.Security.Claims;
 
 namespace SportNetwork.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class AchievementController : ControllerBase
     {
         private readonly IService<AchievementDto> _achievementService;
@@ -24,11 +29,18 @@ namespace SportNetwork.Controllers
         {
             try
             {
+                var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
                 if (value == null)
                 {
                     return BadRequest("Invalid achievement data.");
                 }
 
+
+                if (userIdFromToken != value.UserId.ToString())
+                {
+                    return Forbid("You are not authorized.");
+                }
                 _achievementService.Add(value);
                 return Ok("Achievement added successfully.");
             }
@@ -38,68 +50,22 @@ namespace SportNetwork.Controllers
             }
         }
 
-        // PUT api/<AchievementController>/5
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromForm] AchievementDto value)
-        {
-            try
-            {
-                if (id <= 0)
-                {
-                    return BadRequest("Invalid achievement ID.");
-                }
-
-                var existingAchievement = _achievementService.Get(id);
-                if (existingAchievement == null)
-                {
-                    return NotFound($"Achievement with ID {id} not found.");
-                }
-
-                _achievementService.Update(value, id);
-                return Ok("Achievement updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        // DELETE api/<AchievementController>/5
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                if (id <= 0)
-                {
-                    return BadRequest("Invalid achievement ID.");
-                }
-
-                var existingAchievement = _achievementService.Get(id);
-                if (existingAchievement == null)
-                {
-                    return NotFound($"Achievement with ID {id} not found.");
-                }
-
-                _achievementService.Delete(id);
-                return Ok("Achievement deleted successfully.");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
+        
         [HttpGet("user/{userId}")]
         public IActionResult GetAchievementsByUserId(int userId)
         {
             try
             {
+                var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
                 if (userId <= 0)
                 {
                     return BadRequest("Invalid user ID.");
                 }
-
+                if (userIdFromToken != userId.ToString())
+                {
+                    return Forbid("You are not authorized to access this achievements.");
+                }
                 var achievements = _extentionAchievementService.GetAchievementsByUserId(userId);
                 if (achievements == null || !achievements.Any())
                 {

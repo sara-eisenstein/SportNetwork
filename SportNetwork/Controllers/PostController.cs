@@ -3,10 +3,12 @@ using Common.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Repositorys.Entities;
 using Repositorys.Rpository;
 using Service.Interfaces;
 using Service.Services;
 using System.IO;
+using System.Security.Claims;
 
 namespace SportNetwork.Controllers
 {
@@ -63,19 +65,27 @@ namespace SportNetwork.Controllers
 
         // POST api/Post
         [HttpPost]
+        [Authorize]
+
         public IActionResult Post([FromForm] PostDto value)
         {
             try
             {
+                var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
                 if (value == null || value.File == null)
                 {
                     return BadRequest("Invalid post data or file is missing.");
                 }
-
+                
                 using (var ms = new MemoryStream())
                 {
                     value.File.CopyTo(ms);
                     value.Media = ms.ToArray(); // שמירת קובץ כ- byte[]
+                }
+                if (userIdFromToken != value.UserId.ToString())
+                {
+                    return Forbid("You are not authorized.");
                 }
 
                 _postService.Add(value);
@@ -88,17 +98,25 @@ namespace SportNetwork.Controllers
         }
 
         // DELETE api/Post/5
+        [Authorize]
         [HttpDelete("{id}")]
+        
+
         public IActionResult Delete(int id)
         {
             try
             {
+                var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
                 var existingPost = _postService.Get(id);
                 if (existingPost == null)
                 {
                     return NotFound($"Post with ID {id} not found.");
                 }
-
+                if (userIdFromToken != existingPost.UserId.ToString())
+                {
+                    return Forbid("You are not authorized.");
+                }
                 _postService.Delete(id);
                 return Ok("Post deleted successfully.");
             }
@@ -115,6 +133,8 @@ namespace SportNetwork.Controllers
         {
             try
             {
+                var userIdFromToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
                 if (value == null)
                 {
                     return BadRequest("Invalid post data.");
@@ -139,7 +159,10 @@ namespace SportNetwork.Controllers
                 {
                     value.Media = existingPost.Media; // שמירת התמונה הקיימת
                 }
-
+                if (userIdFromToken != existingPost.UserId.ToString())
+                {
+                    return Forbid("You are not authorized.");
+                }
                 _postService.Update(value, id);
                 return Ok("Post updated successfully.");
             }

@@ -76,14 +76,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // Enable CORS
 var MyAllowSpecificOrigins = "_MyAllowSpecificOrigins";
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+//    {
+//        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+//    });
+//});
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    });
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")  // מאפשר בקשות מהפורט 3000
+                   .AllowAnyMethod()                      // מאפשר כל סוג של בקשה (GET, POST וכו')
+                   .AllowAnyHeader()                      // מאפשר כל סוג של כותרות
+                   .AllowCredentials();                   // מאפשר שליחת קרדנשיאלס (כמו טוקנים)
+        });
 });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
