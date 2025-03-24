@@ -56,6 +56,10 @@ builder.Services.AddDbContext<IContext, DataBase>();
 // Register services
 builder.Services.AddServiceExtension();
 
+// Register Challenge Recommendation Service
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IChallengeRecommendationService, ChallengeRecommendationService>();
+
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
