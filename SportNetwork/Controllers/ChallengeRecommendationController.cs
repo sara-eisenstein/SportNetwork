@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
 using SportNetwork.Models.AI;
@@ -21,6 +22,8 @@ namespace SportNetwork.Controllers
         /// </summary>
         /// <param name="request">הבקשה המכילה את הפרומפט ורשימת האתגרים הזמינים</param>
         /// <returns>רשימת ID של אתגרים מתאימים</returns>
+        /// 
+        [Authorize]
         [HttpPost("recommend")]
         public async Task<ActionResult<List<int>>> GetRecommendations([FromBody, Required] ChallengeRecommendationRequest request)
         {
