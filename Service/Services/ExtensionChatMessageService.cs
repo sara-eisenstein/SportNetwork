@@ -27,6 +27,11 @@ namespace Service.Services
         {
             return mapper.Map<List<ChatMessageDto>>(repository.GetChatMessages(userId, otherUserId, pageNumber));
         }
+
+        public  List<ChatUserDto> GetRecentChatUsersAsync(int userId)
+        {
+            return repository.GetRecentChatUsersAsync(userId);
+        }
     }
 
         

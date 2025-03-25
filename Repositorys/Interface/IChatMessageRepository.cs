@@ -1,4 +1,5 @@
-﻿using Repositorys.Entities;
+﻿using Common.Dto;
+using Repositorys.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace Repositorys.Interface
     public interface IChatMessageRepository
     {
         List<ChatMessage> GetChatMessages(int userId, int otherUserId, int pageNumber);
+        List<ChatUserDto> GetRecentChatUsersAsync(int userId);
     }
 }

@@ -10,5 +10,6 @@ namespace Service.Interfaces
     public interface IChatMessageService
     {
         List<ChatMessageDto> GetChatMessages(int userId, int otherUserId, int pageNumber);
+        List<ChatUserDto> GetRecentChatUsersAsync(int userId);
     }
 }
