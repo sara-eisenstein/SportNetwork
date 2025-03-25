@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Collections.Concurrent;
 using Common.Dto;
 using System.Text.Json;
+using Service.Interfaces;
 
 namespace SportNetworkServer.Controllers
 {
@@ -18,7 +19,10 @@ namespace SportNetworkServer.Controllers
     public class ChatController : ControllerBase
     {
         private static ConcurrentDictionary<int, WebSocket> _usersSockets = new ConcurrentDictionary<int, WebSocket>();
-
+        private readonly IService<ChatMessageDto> service;
+        public ChatController(IService<ChatMessageDto> service) {
+        this.service = service; 
+        }
         [HttpGet("connect")]
 
         public async Task<IActionResult> Connect(int userId)
@@ -80,30 +84,40 @@ namespace SportNetworkServer.Controllers
         {
             var buffer = Encoding.UTF8.GetBytes(messageJson);
             var msgObj = JsonSerializer.Deserialize<ChatMessageDto>(messageJson);
-            if (msgObj == null || !_usersSockets.ContainsKey(msgObj.RecipientId))
-            {
-                Console.WriteLine("Recipient not connected or invalid message");
-                return;
-            }
+           
+            
 
             if (msgObj.SentDate == default)
             {
                 msgObj.SentDate = DateTime.UtcNow;
             }
+             await SaveMessageToDatabase(msgObj);//save the message on data
+            var senderSocket = _usersSockets[msgObj.SenderId];//get the sendrt to the dictinary
 
-            var tasks = _usersSockets.Keys
-                .Where(key => key==msgObj.RecipientId && _usersSockets[key].State == WebSocketState.Open)
-                .Select(key =>
-                    _usersSockets[key].SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None))
-                .ToList();
-
+            if (msgObj == null || !_usersSockets.ContainsKey(msgObj.RecipientId))
+            {
+                await senderSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                Console.WriteLine("Recipient not connected or invalid message");
+                return;
+            } 
+            var recipientSocket = _usersSockets[msgObj.RecipientId];//get the resipient from the ductinary
+            
+            if (recipientSocket.State == WebSocketState.Open)
+            {
+                await recipientSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                await senderSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+        }
+        private async Task SaveMessageToDatabase(ChatMessageDto message)
+        {
             try
             {
-                await Task.WhenAll(tasks);
+                // שמור את ההודעה ב-DB
+                ChatMessageDto value = service.Add(message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"שגיאה בשליחת הודעה: {ex.Message}");
+                Console.WriteLine($"Error saving message to DB: {ex.Message}");
             }
         }
     }

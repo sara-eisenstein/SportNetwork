@@ -39,7 +39,7 @@ namespace SportNetwork.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        //קבלת חמש הודעות ישנות 
         [HttpGet("GetChatMessages")]
         public IActionResult GetChatMessages([FromQuery] int userId, [FromQuery] int otherUserId, [FromQuery] int pageNumber = 1)
         {
