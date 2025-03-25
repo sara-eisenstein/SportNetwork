@@ -11,6 +11,7 @@ namespace Service.Interfaces
     {
         UserDto GetUserByEmail(string email);
         userPublicDto GetPublicUderDetails(int userId);
+        string getUserName(int userId);
 
     }
 }

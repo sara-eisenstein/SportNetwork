@@ -15,9 +15,17 @@ namespace Repositorys.Rpository
         {
             this.context = context;
         }
-        public List<ChatMessage> GetChatMassages(int id)
+        public List<ChatMessage> GetChatMessages(int userId, int otherUserId, int pageNumber)
         {
-            return context.chatMessages.Where(x=>x.RecipientId == id||x.SenderId==id).OrderBy(x=>x.SentDate).ToList();
+            int pageSize = 5;
+            return context.chatMessages
+                .Where(x =>
+                    (x.SenderId == userId && x.RecipientId == otherUserId) ||
+                    (x.SenderId == otherUserId && x.RecipientId == userId))
+                .OrderByDescending(x => x.SentDate)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
     }
 }

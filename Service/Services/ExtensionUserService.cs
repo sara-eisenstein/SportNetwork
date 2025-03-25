@@ -31,6 +31,10 @@ namespace Service.Services
         {
             return mapper.Map<userPublicDto>(userRepository.GetPublicUderDetails(userId));
         }
+        public string getUserName(int userId)
+        {
+            return userRepository.getUserName(userId);
+        }
 
     }
 }

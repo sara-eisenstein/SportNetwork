@@ -13,6 +13,8 @@ namespace Repositorys.Interface
         User GetUserByEmail(string email);
         User GetPublicUderDetails(int userId);
 
+        string getUserName(int userId);
+
 
     }
 }

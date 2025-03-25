@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Service.Services
 {
-    public class ExtensionChatMessageService:IChatMessageService
+    public class ExtensionChatMessageService : IChatMessageService
     {
         private readonly IChatMessageRepository repository;
         private readonly IMapper mapper;
@@ -21,12 +21,14 @@ namespace Service.Services
             this.mapper = mapper;
         }
 
-        public List<ChatMessageDto> GetChatMassages(int id)
+
+
+        public List<ChatMessageDto> GetChatMessages(int userId, int otherUserId, int pageNumber)
         {
-            return mapper.Map<List<ChatMessageDto>>(repository.GetChatMassages(id));
+            return mapper.Map<List<ChatMessageDto>>(repository.GetChatMessages(userId, otherUserId, pageNumber));
         }
     }
 
-        
-   
+
+
 }

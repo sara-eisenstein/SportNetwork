@@ -100,6 +100,7 @@ builder.Services.AddCors(options =>
 });
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -112,6 +113,9 @@ app.UseHttpsRedirection();
 // Enable authentication and authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Enable WebSocket support
+app.UseWebSockets();
 
 // Enable CORS
 app.UseCors(MyAllowSpecificOrigins);

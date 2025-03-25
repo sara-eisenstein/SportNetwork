@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Service.Interfaces;
+using Service.Services;
 using System.Diagnostics.Eventing.Reader;
 using System.Security.Claims;
 
@@ -176,6 +177,15 @@ namespace SportNetwork.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+        }
+
+        [HttpGet("/name/{id}")]
+        public IActionResult GetName(int id)
+        {
+            string name = _extensionUserService.getUserName(id);
+            if (name == null)
+                return Forbid("user not fund");
+            return Ok(name);
         }
 
 

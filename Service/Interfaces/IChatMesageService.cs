@@ -9,6 +9,6 @@ namespace Service.Interfaces
 {
     public interface IChatMessageService
     {
-        public List<ChatMessageDto> GetChatMassages(int id);
+        List<ChatMessageDto> GetChatMessages(int userId, int otherUserId, int pageNumber);
     }
 }
