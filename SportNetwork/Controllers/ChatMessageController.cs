@@ -9,7 +9,7 @@ namespace SportNetwork.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    // [Authorize]
     public class ChatMessageController : ControllerBase
     {
         private readonly IService<ChatMessageDto> _chatMessageService;
@@ -39,7 +39,7 @@ namespace SportNetwork.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        //קבלת חמש הודעות ישנות 
         [HttpGet("GetChatMessages")]
         public IActionResult GetChatMessages([FromQuery] int userId, [FromQuery] int otherUserId, [FromQuery] int pageNumber = 1)
         {
@@ -53,7 +53,19 @@ namespace SportNetwork.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        [HttpGet("users")]
+        public IActionResult GetUserToChat([FromQuery] int userId)
+        {
+            try
+            {
+                var users = _customChatService.GetRecentChatUsersAsync(userId);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
         // עדכון הודעה
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ChatMessageDto value)
