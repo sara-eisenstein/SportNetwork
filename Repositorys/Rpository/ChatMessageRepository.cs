@@ -19,6 +19,7 @@ namespace Repositorys.Rpository
 
         public ChatMessage Add(ChatMessage item)
         {
+
             context.chatMessages.Add(item);
             context.Save();
             return item;

@@ -65,13 +65,16 @@ namespace SportNetworkServer.Controllers
                     var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     if (result.MessageType == WebSocketMessageType.Text)
                     {
+                        
                         var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                        Console.WriteLine($"message1:{message}" );
                         await BroadcastMessage(message);
                     }
                     else if (result.MessageType == WebSocketMessageType.Close)
                     {
                         break;
                     }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -83,7 +86,10 @@ namespace SportNetworkServer.Controllers
 
         private async Task BroadcastMessage(string messageJson)
         {
+            Console.WriteLine("message:"+messageJson);
             var buffer = Encoding.UTF8.GetBytes(messageJson);
+            Console.WriteLine("message:"+messageJson);
+            Console.WriteLine($"JSON שהתקבל: {messageJson}");
             var msgObj = JsonSerializer.Deserialize<ChatMessageDto>(messageJson);
 
 
