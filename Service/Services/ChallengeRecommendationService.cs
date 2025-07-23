@@ -15,7 +15,7 @@ namespace Service.Services
         private readonly IMapper mapper;
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
-        private readonly string _apiEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+        private readonly string _apiEndpoint = "MY_API_KAY";
 
         public ChallengeRecommendationService(
             IRepository<Challenge> repository,
